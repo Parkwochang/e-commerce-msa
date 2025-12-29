@@ -4,7 +4,7 @@ packages:
   - 'tools/*'
 catalog:
   eslint: ^9.39.1
-  prettier: ^3.4.2
+  prettier: ^3.7.4
   typescript: ^5.9.2
 catalogs:
   nestjs:
@@ -18,3 +18,7 @@ catalogs:
     '@nestjs/schematics': ^11.0.0
     '@nestjs/testing': ^11.0.1'
     reflect-metadata: ^0.2.2'
+  logger:
+    'nest-winston': ^1.9.7
+    'winston': ^3.15.0
+    'winston-daily-rotate-file': ^5.0.0
