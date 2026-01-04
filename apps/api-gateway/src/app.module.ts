@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LoggerModule } from '@repo/logger';
+import { LoggerModule, TraceInterceptor } from '@repo/logger';
 
 @Module({
   imports: [
@@ -12,6 +13,12 @@ import { LoggerModule } from '@repo/logger';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TraceInterceptor,
+    },
+  ],
 })
 export class AppModule {}

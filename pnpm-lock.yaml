@@ -12,6 +12,9 @@ catalogs:
     prettier:
       specifier: ^3.7.4
       version: 3.7.4
+    rxjs:
+      specifier: ^7.8.1
+      version: 7.8.2
     typescript:
       specifier: ^5.9.2
       version: 5.9.2
@@ -65,7 +68,7 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2
       rxjs:
-        specifier: ^7.8.1
+        specifier: 'catalog:'
         version: 7.8.2
     devDependencies:
       '@nestjs/cli':
@@ -159,6 +162,9 @@ importers:
       '@types/node':
         specifier: ^22.10.7
         version: 22.19.3
+      rxjs:
+        specifier: 'catalog:'
+        version: 7.8.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.2
