@@ -27,7 +27,8 @@
     "@nestjs/core": "catalog:nestjs",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^22.10.7",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "rxjs": "catalog:"
   },
   "peerDependencies": {
     "@nestjs/common": "^11.0.0",

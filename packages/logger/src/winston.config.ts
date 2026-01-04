@@ -1,6 +1,7 @@
 import * as winston from 'winston';
 import type { LoggerOptions } from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
+import { getRequestContext, getTraceId } from './trace.context';
 
 const { combine, timestamp, printf, colorize, errors, json } = winston.format;
 
@@ -22,10 +23,27 @@ export interface WinstonConfigOptions {
 
 // 개발 환경용 읽기 쉬운 로그 포맷
 const developmentFormat = printf(({ level, message, timestamp, context, trace, service, ...metadata }) => {
-  let msg = `${timestamp} [${service}] [${context || 'Application'}] ${level}: ${message}`;
+  const traceId = getTraceId();
+  const traceIdStr = traceId ? `[${traceId.substring(0, 8)}]` : '';
+  const requestCtx = getRequestContext();
 
-  // 추가 메타데이터가 있으면 출력 (service 제외)
-  const metaKeys = Object.keys(metadata).filter((key) => key !== 'service');
+  // traceId는 별도로 표시하므로 제외
+  const ctxInfo = requestCtx
+    ? Object.entries(requestCtx)
+        .filter(([key]) => key !== 'traceId')
+        .map(([key, value]) => `${key}: ${value}`)
+        .join(', ')
+    : '';
+
+  let msg = `${timestamp} [${service}] [${context || 'Application'}] ${traceIdStr} ${level}: ${message}`;
+
+  // Request Context 정보 추가
+  if (ctxInfo) {
+    msg += ` (${ctxInfo})`;
+  }
+
+  // 추가 메타데이터가 있으면 출력 (service, traceId 제외)
+  const metaKeys = Object.keys(metadata).filter((key) => key !== 'service' && key !== 'traceId');
   if (metaKeys.length > 0) {
     const filteredMeta = metaKeys.reduce((acc, key) => ({ ...acc, [key]: metadata[key] }), {});
     msg += ` ${JSON.stringify(filteredMeta)}`;
@@ -95,7 +113,22 @@ export const createWinstonConfig = (options: WinstonConfigOptions): LoggerOption
 
   return {
     level,
-    format: combine(timestamp(), errors({ stack: true }), json()),
+    format: combine(
+      timestamp(),
+      errors({ stack: true }),
+      // Request Context를 자동으로 메타데이터에 추가
+      winston.format((info) => {
+        const requestCtx = getRequestContext();
+        if (requestCtx) {
+          // 모든 컨텍스트 정보를 로그에 추가
+          Object.entries(requestCtx).forEach(([key, value]) => {
+            info[key] = value;
+          });
+        }
+        return info;
+      })(),
+      json()
+    ),
     defaultMeta: {
       service: serviceName,
       env: process.env.NODE_ENV || 'development',
