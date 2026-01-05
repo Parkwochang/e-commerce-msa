@@ -24,6 +24,7 @@ export class TraceInterceptor implements NestInterceptor {
     const traceId = request.headers['x-trace-id'] || generateTraceId();
 
     return new Observable((subscriber) => {
+      // 동기 실행 컨텍스트에 traceId를 설정하여 전체 요청 생명주기 동안 사용
       requestContext.run({ traceId }, () => {
         next.handle().subscribe({
           next: (value) => subscriber.next(value),
