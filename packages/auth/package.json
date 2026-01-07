@@ -1,5 +1,5 @@
 {
-  "name": "@repo/logger",
+  "name": "@repo/auth",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/index.js",
@@ -17,11 +17,7 @@
     "clean": "rm -rf dist",
     "check-types": "tsc --noEmit"
   },
-  "dependencies": {
-    "nest-winston": "catalog:logger",
-    "winston": "catalog:logger",
-    "winston-daily-rotate-file": "catalog:logger"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@nestjs/common": "catalog:nestjs",
     "@nestjs/core": "catalog:nestjs",
@@ -31,7 +27,7 @@
     "rxjs": "catalog:"
   },
   "peerDependencies": {
-    "@nestjs/common": "catalog:nestjs",
-    "@nestjs/core": "catalog:nestjs"
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0"
   }
 }
