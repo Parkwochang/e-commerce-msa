@@ -23,3 +23,11 @@ catalogs:
     'nest-winston': ^1.9.7
     'winston': ^3.15.0
     'winston-daily-rotate-file': ^5.0.0
+  auth:
+    '@nestjs/jwt': ^11.0.0
+    '@nestjs/passport': ^11.0.5
+    passport-jwt: ^4.0.1
+    bcrypt: ^6.0.0
+    '@types/bcrypt': ^6.0.0
+    cookie-parser: ^1.4.7
+    '@types/cookie-parser': ^1.4.7

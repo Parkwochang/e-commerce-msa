@@ -31,7 +31,7 @@
     "rxjs": "catalog:"
   },
   "peerDependencies": {
-    "@nestjs/common": "^11.0.0",
-    "@nestjs/core": "^11.0.0"
+    "@nestjs/common": "catalog:nestjs",
+    "@nestjs/core": "catalog:nestjs"
   }
 }

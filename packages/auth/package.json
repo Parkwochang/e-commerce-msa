@@ -1,27 +1,14 @@
 {
-  "name": "@repo/config",
+  "name": "@repo/auth",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "./auth": {
-      "types": "./dist/auth/index.d.ts",
-      "default": "./dist/auth/index.js"
-    },
-    "./grpc": {
-      "types": "./dist/grpc/index.d.ts",
-      "default": "./dist/grpc/index.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "auth": [
-        "./dist/auth/index.d.ts"
-      ],
-      "grpc": [
-        "./dist/grpc/index.d.ts"
-      ]
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js",
+      "require": "./dist/index.js"
     }
   },
   "scripts": {
@@ -30,11 +17,10 @@
     "clean": "rm -rf dist",
     "check-types": "tsc --noEmit"
   },
+  "dependencies": {},
   "devDependencies": {
-    "@nestjs/jwt": "catalog:auth",
     "@nestjs/common": "catalog:nestjs",
     "@nestjs/core": "catalog:nestjs",
-    "@nestjs/microservices": "catalog:nestjs",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^22.10.7",
     "typescript": "catalog:",
