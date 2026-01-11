@@ -13,9 +13,7 @@ export class UserController {
   private readonly logger = new Logger(UserController.name);
   private userService: UserService;
 
-  constructor(
-    @Inject('USER_SERVICE') private readonly client: ClientGrpc,
-  ) {}
+  constructor(@Inject('USER_SERVICE') private readonly client: ClientGrpc) {}
 
   onModuleInit() {
     // gRPC 서비스 초기화
@@ -35,4 +33,3 @@ export class UserController {
     return this.userService.findOne({ id });
   }
 }
-
