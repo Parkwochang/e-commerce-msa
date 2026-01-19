@@ -21,11 +21,14 @@
   },
   "dependencies": {
     "@repo/config": "workspace:*",
-    "@nestjs/common": "^11.0.1",
-    "@nestjs/core": "^11.0.1",
+    "@nestjs/common": "catalog:nestjs",
+    "@nestjs/core": "catalog:nestjs",
+    "@nestjs/microservices": "catalog:nestjs",
     "@nestjs/platform-express": "^11.0.1",
     "@repo/logger": "workspace:*",
     "reflect-metadata": "^0.2.2",
+    "zod": "catalog:validation",
+    "nestjs-zod": "catalog:validation",
     "rxjs": "catalog:"
   },
   "devDependencies": {

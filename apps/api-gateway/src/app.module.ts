@@ -5,8 +5,8 @@ import { AppService } from './app.service';
 import { LoggerModule, TraceInterceptor } from '@repo/logger';
 import { AuthModule } from '@repo/config/auth';
 import { GrpcModule } from '@repo/config/grpc';
-import { UserController } from './user/user.controller';
-import { OrderController } from './order/order.controller';
+import { UserModule } from './user/user.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -16,7 +16,8 @@ import { OrderController } from './order/order.controller';
       disableFileLog: process.env.NODE_ENV === 'production', // 파일 로그 활성화
     }),
     AuthModule.forRoot({
-      secret: process.env.JWT_SECRET,
+      secret:
+        process.env.JWT_SECRET || 'default-secret-key-change-in-production',
       expiresIn: '1h',
     }),
     // gRPC 클라이언트 등록 (여러 마이크로서비스와 통신)
@@ -40,8 +41,11 @@ import { OrderController } from './order/order.controller';
         packageName: 'product',
       },
     ]),
+    // Feature Modules
+    UserModule,
+    OrderModule,
   ],
-  controllers: [AppController, UserController, OrderController],
+  controllers: [AppController],
   providers: [
     AppService,
     {
