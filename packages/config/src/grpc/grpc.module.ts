@@ -38,6 +38,7 @@ export class GrpcModule {
 
     return {
       module: GrpcModule,
+      global: true,
       imports: [ClientsModule.register(clients.map((client) => createGrpcClient(client)))],
       exports: [ClientsModule],
     };

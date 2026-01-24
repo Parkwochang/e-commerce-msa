@@ -4,11 +4,12 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "start": "turbo run start",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "gw": "pnpm -F api-gateway",
-    "user": "pnpm -F user",
+    "user": "pnpm -F user-service",
     "common": "pnpm -F @repo/common",
     "config": "pnpm -F @repo/config",
     "logger": "pnpm -F @repo/logger"
