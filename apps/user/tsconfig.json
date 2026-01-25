@@ -9,7 +9,6 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"]
-      // "@workspace/http/*": ["../../packages/http/src/*"]
     },
     "incremental": true,
     "strictNullChecks": true,

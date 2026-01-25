@@ -21,15 +21,18 @@
   },
   "dependencies": {
     "@repo/config": "workspace:*",
+    "@repo/logger": "workspace:*",
+    "@repo/proto-types": "workspace:*",
     "@nestjs/common": "catalog:nestjs",
     "@nestjs/core": "catalog:nestjs",
     "@nestjs/microservices": "catalog:nestjs",
     "@nestjs/platform-express": "catalog:nestjs",
-    "@repo/logger": "workspace:*",
     "reflect-metadata": "catalog:nestjs",
     "zod": "catalog:validation",
     "nestjs-zod": "catalog:validation",
-    "rxjs": "catalog:"
+    "rxjs": "catalog:",
+    "@grpc/grpc-js": "catalog:grpc",
+    "@grpc/proto-loader": "catalog:grpc"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.0",
