@@ -1,135 +1,227 @@
-# Turborepo starter
+# 🛍️ E-Commerce Microservices Architecture
 
-This Turborepo starter is maintained by the Turborepo core team.
+Turborepo 기반의 마이크로서비스 아키텍처 E-Commerce 플랫폼입니다.
 
-## Using this example
+## 📦 프로젝트 구조
 
-Run the following command:
+### Apps (마이크로서비스)
 
-```sh
-npx create-turbo@latest
+- `api-gateway`: REST API Gateway - 클라이언트 요청을 각 마이크로서비스로 라우팅
+- `user`: 사용자 관리 서비스 (gRPC)
+- `order`: 주문 관리 서비스 (gRPC)
+- `product`: 상품 관리 서비스 (gRPC)
+- `shop`: 상점 관리 서비스 (gRPC)
+- `benefit`: 혜택/쿠폰 서비스 (gRPC)
+- `settlement`: 정산 서비스 (gRPC)
+
+### Packages (공유 라이브러리)
+
+- `@repo/proto-types`: gRPC Protocol Buffer 정의 및 TypeScript 타입 ⭐
+- `@repo/logger`: 공통 로깅 시스템 (Winston + 분산 추적)
+- `@repo/config`: 공통 설정 (gRPC, Auth 등)
+- `@repo/auth`: 인증/인가 공통 로직
+- `@repo/common`: 공통 유틸리티
+
+### Tools
+
+- `@repo/eslint-config`: ESLint 설정
+- `@repo/typescript-config`: TypeScript 설정
+- `@repo/prettier-config`: Prettier 설정
+
+## 🚀 시작하기
+
+### 1. 의존성 설치
+
+```bash
+pnpm install
 ```
 
-## What's inside?
+### 2. Proto 타입 생성 (중요!)
 
-This Turborepo includes the following packages/apps:
+```bash
+# protoc 설치 (필요한 경우)
+brew install protobuf  # macOS
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+# Proto 타입 생성
+cd packages/proto-types
+pnpm generate
+pnpm build
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+또는 루트에서:
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+```bash
+pnpm --filter @repo/proto-types generate
+pnpm --filter @repo/proto-types build
 ```
 
-### Develop
+> 📚 자세한 내용은 [PROTO_SETUP.md](./PROTO_SETUP.md)를 참고하세요.
 
-To develop all apps and packages, run the following command:
+### 3. 개발 모드 실행
 
-```
-cd my-turborepo
+```bash
+# 모든 서비스 동시 실행
+pnpm dev
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+# 특정 서비스만 실행
+pnpm --filter api-gateway dev
+pnpm --filter user-service dev
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+### 4. 빌드
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+```bash
+# 모든 서비스 빌드
+pnpm build
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+# 특정 서비스만 빌드
+pnpm --filter api-gateway build
 ```
 
-### Remote Caching
+## 🏗️ 아키텍처
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+### gRPC 통신 구조
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+┌─────────────┐
+│   Client    │
+└──────┬──────┘
+       │ HTTP/REST
+       ▼
+┌─────────────┐
+│ API Gateway │
+└──────┬──────┘
+       │ gRPC
+       ├─────────┐
+       ▼         ▼
+┌──────────┐  ┌──────────┐
+│   User   │  │  Order   │  ...
+│ Service  │  │ Service  │
+└──────────┘  └──────────┘
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### Proto Types 패키지 (@repo/proto-types) ⭐
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+모든 gRPC 서비스의 Protocol Buffer 정의를 중앙에서 관리합니다.
 
+**장점:**
+- 📝 단일 진실의 원천 (Single Source of Truth)
+- 🔄 타입 안정성 보장
+- ⚡ Turborepo 캐싱으로 효율적인 빌드
+- 📦 모든 서비스에서 일관된 타입 사용
+
+**사용 예시:**
+
+```typescript
+import { 
+  UserServiceClient, 
+  CreateUserRequest,
+  UserResponse 
+} from '@repo/proto-types';
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+## 📝 개발 워크플로우
+
+### Proto 파일 수정 시
+
+1. `packages/proto-types/proto/` 에서 .proto 파일 수정
+2. `cd packages/proto-types && pnpm generate && pnpm build`
+3. Turborepo가 변경된 부분만 자동으로 재빌드
+
+### 새로운 서비스 추가 시
+
+1. Proto 파일 작성: `packages/proto-types/proto/new-service.proto`
+2. Proto 타입 생성: `cd packages/proto-types && pnpm generate && pnpm build`
+3. 서비스 구현: `apps/new-service/`
+
+## 🛠️ 사용 기술
+
+- **Framework**: NestJS
+- **RPC**: gRPC (@grpc/grpc-js)
+- **Proto**: Protocol Buffers (ts-proto)
+- **Database**: Prisma (예정)
+- **Logging**: Winston
+- **Validation**: Zod
+- **Monorepo**: Turborepo + pnpm workspace
+
+## 📚 문서
+
+- [Proto Types 설정 가이드](./PROTO_SETUP.md)
+- [Logger 패키지 문서](./packages/logger/README.md)
+- [Config 패키지 문서](./packages/config/README.md)
+
+## 🔥 유용한 명령어
+
+```bash
+# 전체 빌드
+pnpm build
+
+# 개발 모드 (모든 서비스)
+pnpm dev
+
+# 특정 서비스만 실행
+pnpm --filter api-gateway dev
+pnpm --filter user-service dev
+
+# Proto 타입 재생성
+pnpm --filter @repo/proto-types generate
+
+# 린트 체크
+pnpm lint
+
+# 포맷팅
+pnpm format
+
+# 테스트
+pnpm test
 ```
 
-## Useful Links
+## 🐛 트러블슈팅
 
-Learn more about the power of Turborepo:
+### proto-types를 찾을 수 없음
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+```bash
+cd packages/proto-types
+pnpm install
+pnpm generate
+pnpm build
+```
+
+### protoc not found
+
+```bash
+# macOS
+brew install protobuf
+
+# Ubuntu
+sudo apt-get install protobuf-compiler
+```
+
+### 변경사항이 반영 안 됨
+
+```bash
+# Turborepo 캐시 클리어
+rm -rf .turbo node_modules/.cache
+
+# 재설치 및 빌드
+pnpm install
+pnpm build
+```
+
+## 📖 추가 자료
+
+- [Turborepo 문서](https://turborepo.com/docs)
+- [NestJS 마이크로서비스](https://docs.nestjs.com/microservices/grpc)
+- [Protocol Buffers](https://protobuf.dev/)
+- [gRPC 가이드](https://grpc.io/docs/)
+
+## 👥 기여하기
+
+1. Proto 파일 수정 시 반드시 문서화
+2. 새로운 서비스 추가 시 README 업데이트
+3. 공통 로직은 packages로 분리
+4. 커밋 전 린트 및 테스트 실행
+
+---
+
+Built with ❤️ using Turborepo

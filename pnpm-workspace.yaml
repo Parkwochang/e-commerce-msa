@@ -42,6 +42,7 @@ catalogs:
   grpc:
     '@grpc/grpc-js': ^1.12.4
     '@grpc/proto-loader': ^0.7.15
+    ts-proto: ^2.11.1
 
   testing:
     jest: ^29.7.0

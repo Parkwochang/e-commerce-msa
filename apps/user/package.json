@@ -17,16 +17,16 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "proto:generate": "sh generate-proto.sh"
+    "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@repo/config": "workspace:*",
+    "@repo/logger": "workspace:*",
+    "@repo/proto-types": "workspace:*",
     "@nestjs/common": "catalog:nestjs",
     "@nestjs/core": "catalog:nestjs",
     "@nestjs/microservices": "catalog:nestjs",
     "@nestjs/platform-express": "catalog:nestjs",
-    "@repo/logger": "workspace:*",
     "reflect-metadata": "catalog:nestjs",
     "zod": "catalog:validation",
     "nestjs-zod": "catalog:validation",
