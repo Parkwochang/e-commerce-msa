@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { User } from '@repo/proto-types';
 
 /**
  * User Service
@@ -27,7 +28,7 @@ export class UserService {
     },
   ];
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<User.UserResponse> {
     this.logger.log(`Finding user: ${id}`);
     const user = this.users.find((u) => u.id === id);
 
@@ -35,15 +36,27 @@ export class UserService {
       throw new Error(`User with id ${id} not found`);
     }
 
-    return user;
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      createdAt: user.created_at,
+    };
   }
 
-  async findAll() {
+  async findAll(): Promise<User.UserListResponse> {
     this.logger.log('Finding all users');
-    return { users: this.users };
+    return {
+      users: this.users.map((u) => ({
+        id: u.id,
+        email: u.email,
+        name: u.name,
+        createdAt: u.created_at,
+      })),
+    };
   }
 
-  async create(data: { email: string; name: string; password: string }) {
+  async create(data: User.CreateUserRequest): Promise<User.UserResponse> {
     this.logger.log(`Creating user: ${data.email}`);
 
     const newUser = {
@@ -55,6 +68,11 @@ export class UserService {
 
     this.users.push(newUser);
 
-    return newUser;
+    return {
+      id: newUser.id,
+      email: newUser.email,
+      name: newUser.name,
+      createdAt: newUser.created_at,
+    };
   }
 }

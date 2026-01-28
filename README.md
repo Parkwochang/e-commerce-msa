@@ -105,6 +105,7 @@ pnpm --filter api-gateway build
 모든 gRPC 서비스의 Protocol Buffer 정의를 중앙에서 관리합니다.
 
 **장점:**
+
 - 📝 단일 진실의 원천 (Single Source of Truth)
 - 🔄 타입 안정성 보장
 - ⚡ Turborepo 캐싱으로 효율적인 빌드
@@ -113,11 +114,11 @@ pnpm --filter api-gateway build
 **사용 예시:**
 
 ```typescript
-import { 
-  UserServiceClient, 
-  CreateUserRequest,
-  UserResponse 
-} from '@repo/proto-types';
+import { User, Order, Product } from '@repo/proto-types';
+
+// 타입 사용
+const client: User.UserServiceClient;
+const request: User.CreateUserRequest = { ... };
 ```
 
 ## 📝 개발 워크플로우

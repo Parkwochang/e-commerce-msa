@@ -2,6 +2,7 @@ import { Controller, Logger } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { UserService } from './user.service';
 import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
+import { User } from '@repo/proto-types';
 
 /**
  * User gRPC Controller
@@ -17,22 +18,22 @@ export class UserController {
 
   @GrpcMethod('UserService', 'FindOne')
   async findOne(
-    data: { id: string },
+    data: User.FindOneRequest,
     metadata: Metadata,
     call: ServerUnaryCall<any, any>,
-  ) {
+  ): Promise<User.UserResponse> {
     this.logger.log(`Finding user with id: ${data.id}`, { metadata, call });
     return this.userService.findOne(data.id);
   }
 
   @GrpcMethod('UserService', 'FindAll')
-  async findAll(data: {}) {
+  async findAll(data: User.FindAllRequest): Promise<User.UserListResponse> {
     this.logger.log('Finding all users');
     return this.userService.findAll();
   }
 
   @GrpcMethod('UserService', 'Create')
-  async create(data: { email: string; name: string; password: string }) {
+  async create(data: User.CreateUserRequest): Promise<User.UserResponse> {
     this.logger.log(`Creating user: ${data.email}`);
     return this.userService.create(data);
   }

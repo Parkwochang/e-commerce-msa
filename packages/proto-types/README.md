@@ -50,20 +50,51 @@ pnpm build
 
 ### 서비스에서 사용
 
-```typescript
-// User 서비스 타입 임포트
-import { 
-  UserServiceClient, 
-  CreateUserRequest,
-  UserResponse 
-} from '@repo/proto-types/user';
+#### TypeScript 타입 사용
 
-// Order 서비스 타입 임포트
-import { 
-  OrderServiceClient,
-  CreateOrderRequest 
-} from '@repo/proto-types/order';
+```typescript
+// Namespace import로 깔끔하게!
+import { User, Order, Product } from '@repo/proto-types';
+
+// User 서비스 타입 사용
+const client: User.UserServiceClient;
+const request: User.CreateUserRequest = { ... };
+const response: User.UserResponse;
+
+// Order 서비스 타입 사용
+const orderClient: Order.OrderServiceClient;
+const orderRequest: Order.CreateOrderRequest = { ... };
 ```
+
+#### Proto 파일 경로 사용 (gRPC 런타임)
+
+```typescript
+import { PROTO_PATHS } from '@repo/proto-types';
+
+// User Service
+app.connectMicroservice({
+  transport: Transport.GRPC,
+  options: {
+    package: 'user',
+    protoPath: PROTO_PATHS.USER,  // ← 패키지를 통해 경로 제공!
+  },
+});
+
+// API Gateway
+GrpcModule.forRoot([
+  {
+    name: 'USER_SERVICE',
+    protoPath: PROTO_PATHS.USER,
+    packageName: 'user',
+  },
+]);
+```
+
+**장점:**
+- ✅ 상대 경로(`../../../`) 불필요
+- ✅ 패키지 버전과 함께 관리
+- ✅ 타입 안전성
+- ✅ 리팩토링 용이
 
 ## 🔄 워크플로우
 

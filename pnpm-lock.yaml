@@ -23,6 +23,9 @@ catalogs:
       specifier: ^5.9.2
       version: 5.9.2
   grpc:
+    '@bufbuild/protobuf':
+      specifier: ^2.2.2
+      version: 2.11.0
     '@grpc/grpc-js':
       specifier: ^1.12.4
       version: 1.14.3
@@ -305,27 +308,6 @@ importers:
         specifier: 'catalog:'
         version: 5.9.2
 
-  packages/auth:
-    devDependencies:
-      '@nestjs/common':
-        specifier: catalog:nestjs
-        version: 11.1.10(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/core':
-        specifier: catalog:nestjs
-        version: 11.1.10(@nestjs/common@11.1.10(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.1.11)(@nestjs/platform-express@11.1.10)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@repo/typescript-config':
-        specifier: workspace:*
-        version: link:../../tools/typescript-config
-      '@types/node':
-        specifier: ^22.10.7
-        version: 22.19.3
-      rxjs:
-        specifier: 'catalog:'
-        version: 7.8.2
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.2
-
   packages/common:
     devDependencies:
       '@nestjs/common':
@@ -413,22 +395,25 @@ importers:
 
   packages/proto-types:
     dependencies:
+      '@bufbuild/protobuf':
+        specifier: catalog:grpc
+        version: 2.11.0
+    devDependencies:
       '@grpc/grpc-js':
         specifier: catalog:grpc
         version: 1.14.3
-      '@grpc/proto-loader':
-        specifier: catalog:grpc
-        version: 0.7.15
-      rxjs:
-        specifier: ^7.8.1
-        version: 7.8.2
-    devDependencies:
+      '@nestjs/microservices':
+        specifier: catalog:nestjs
+        version: 11.1.11(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.10(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.10)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../../tools/typescript-config
       '@types/node':
         specifier: ^22.10.2
         version: 22.19.3
+      rxjs:
+        specifier: 'catalog:'
+        version: 7.8.2
       ts-proto:
         specifier: catalog:grpc
         version: 2.11.1

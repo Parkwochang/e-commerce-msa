@@ -1,14 +1,7 @@
 {
   "extends": "@repo/typescript-config/nestjs",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "composite": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true
+    "rootDir": "./src"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
