@@ -12,7 +12,8 @@
     "user": "pnpm -F user-service",
     "common": "pnpm -F @repo/common",
     "config": "pnpm -F @repo/config",
-    "logger": "pnpm -F @repo/logger"
+    "logger": "pnpm -F @repo/logger",
+    "proto": "pnpm -F @repo/proto-types"
   },
   "devDependencies": {
     "prettier": "catalog:",

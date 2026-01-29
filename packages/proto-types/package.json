@@ -8,19 +8,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "./user": {
-      "types": "./dist/user.d.ts",
-      "default": "./dist/user.js"
-    },
-    "./order": {
-      "types": "./dist/order.d.ts",
-      "default": "./dist/order.js"
-    },
-    "./product": {
-      "types": "./dist/product.d.ts",
-      "default": "./dist/product.js"
+      "default": "./dist/index.js",
+      "require": "./dist/index.js"
     }
   },
   "scripts": {
@@ -30,16 +19,25 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "@bufbuild/protobuf": "^2.2.2",
-    "@grpc/grpc-js": "catalog:grpc",
-    "@grpc/proto-loader": "catalog:grpc",
-    "@nestjs/microservices": "catalog:nestjs",
-    "rxjs": "^7.8.1"
+    "@bufbuild/protobuf": "catalog:grpc"
   },
   "devDependencies": {
+    "@grpc/grpc-js": "catalog:grpc",
+    "@nestjs/microservices": "catalog:nestjs",
     "@types/node": "^22.10.2",
+    "rxjs": "catalog:",
     "ts-proto": "catalog:grpc",
     "@repo/typescript-config": "workspace:*",
     "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "@grpc/grpc-js": "^1.0.0",
+    "@nestjs/microservices": "catalog:nestjs",
+    "rxjs": "^7.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@nestjs/microservices": {
+      "optional": true
+    }
   }
 }

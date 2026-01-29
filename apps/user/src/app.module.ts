@@ -13,11 +13,11 @@ import { UserModule } from './user/user.module';
       serviceName: 'USER_SERVICE',
       disableFileLog: process.env.NODE_ENV !== 'production', // production에서만 파일 로그 활성화
     }),
-    AuthModule.forRoot({
-      secret:
-        process.env.JWT_SECRET || 'default-secret-key-change-in-production',
-      expiresIn: '1h',
-    }),
+    // AuthModule.forRoot({
+    //   secret:
+    //     process.env.JWT_SECRET || 'default-secret-key-change-in-production',
+    //   expiresIn: '1h',
+    // }),
     // Feature Modules (gRPC 컨트롤러들)
     UserModule,
   ],
