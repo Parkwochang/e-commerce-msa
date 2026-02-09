@@ -5,12 +5,16 @@
   "description": "Shared Protocol Buffer definitions and generated TypeScript types for gRPC services",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "**/*.proto"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js",
       "require": "./dist/index.js"
-    }
+    },
+    "./proto/*.proto": "./proto/*.proto"
   },
   "scripts": {
     "build": "pnpm generate && tsc",
