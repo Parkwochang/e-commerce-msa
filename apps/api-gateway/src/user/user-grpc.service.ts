@@ -1,6 +1,8 @@
 import { Injectable, Inject, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
+import { Metadata } from '@grpc/grpc-js';
+
 import { User } from '@repo/proto-types';
 
 /**
@@ -22,7 +24,7 @@ export class UserGrpcService implements OnModuleInit {
    */
   findAll(): Observable<User.UserListResponse> {
     const request: User.FindAllRequest = {};
-    return this.userService.findAll(request);
+    return this.userService.findAll(request, new Metadata());
   }
 
   /**
@@ -30,6 +32,6 @@ export class UserGrpcService implements OnModuleInit {
    */
   findOne(id: string): Observable<User.UserResponse> {
     const request: User.FindOneRequest = { id };
-    return this.userService.findOne(request);
+    return this.userService.findOne(request, new Metadata());
   }
 }
