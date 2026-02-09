@@ -10,6 +10,7 @@
     "check-types": "turbo run check-types",
     "gw": "pnpm -F api-gateway",
     "user": "pnpm -F user-service",
+    "auth": "pnpm -F auth-service",
     "common": "pnpm -F @repo/common",
     "config": "pnpm -F @repo/config",
     "logger": "pnpm -F @repo/logger",
