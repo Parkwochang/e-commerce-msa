@@ -1,6 +1,7 @@
 import * as winston from 'winston';
 import type { LoggerOptions } from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
+
 import { getRequestContext, getTraceId } from './trace.context';
 
 const { combine, timestamp, printf, colorize, errors, json } = winston.format;
@@ -105,23 +106,40 @@ export const createWinstonConfig = (options: WinstonConfigOptions): LoggerOption
 
   const isDevelopment = process.env.NODE_ENV !== 'production';
 
-  // 콘솔 트랜스포트
+  // 콘솔 트랜스포트 - 환경별 분리
   const consoleTransport = new winston.transports.Console({
     format: isDevelopment
-      ? combine(
+      ? // 개발: 사람이 읽기 좋은 포맷 (색상 포함)
+        combine(
           timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
           errors({ stack: true }),
-          colorize({ level: true }), // 레벨만 색상 적용
-          developmentFormat
+          colorize({ level: true }), // 색상 적용
+          developmentFormat,
         )
-      : undefined,
+      : // 프로덕션: Fluent Bit을 위한 순수 JSON (색상 제거)
+        combine(
+          timestamp(),
+          errors({ stack: true }),
+          winston.format((info) => {
+            const requestCtx = getRequestContext();
+            if (requestCtx) {
+              Object.entries(requestCtx).forEach(([key, value]) => {
+                info[key] = value;
+              });
+            }
+            return info;
+          })(),
+          json(),
+        ),
   });
 
   const transports: winston.transport[] = [consoleTransport];
 
-  // 파일 로그 (프로덕션 또는 명시적 활성화 시)
-  if (!disableFileLog && process.env.NODE_ENV !== 'test') {
-    // 일반 로그 파일 (서비스별)
+  // 파일 로그 (로컬 개발용 - Fluent Bit 없을 때만)
+  // Kubernetes 환경: stdout만 출력 → Fluent Bit이 자동 수집 → Elasticsearch
+  // 로컬 개발: 파일로 저장 (디버깅 편의)
+
+  if (!disableFileLog) {
     const combinedFileTransport = new DailyRotateFile({
       dirname: logDir,
       filename: `${serviceName}.%DATE%.log`,
@@ -148,22 +166,23 @@ export const createWinstonConfig = (options: WinstonConfigOptions): LoggerOption
 
   return {
     level,
-    format: combine(
-      timestamp(),
-      errors({ stack: true }),
-      // Request Context를 자동으로 메타데이터에 추가
-      winston.format((info) => {
-        const requestCtx = getRequestContext();
-        if (requestCtx) {
-          // 모든 컨텍스트 정보를 로그에 추가
-          Object.entries(requestCtx).forEach(([key, value]) => {
-            info[key] = value;
-          });
-        }
-        return info;
-      })(),
-      json()
-    ),
+    // 전역 format은 파일 로그용 (JSON)
+    format: !disableFileLog
+      ? combine(
+          timestamp(),
+          errors({ stack: true }),
+          winston.format((info) => {
+            const requestCtx = getRequestContext();
+            if (requestCtx) {
+              Object.entries(requestCtx).forEach(([key, value]) => {
+                info[key] = value;
+              });
+            }
+            return info;
+          })(),
+          json(),
+        )
+      : undefined, // console transport가 자체 format 사용
     defaultMeta: {
       service: serviceName,
       env: process.env.NODE_ENV || 'development',
