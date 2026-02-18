@@ -27,9 +27,9 @@
     "start:debug": {
       "cache": false,
       "persistent": true
+    },
+    "prune": {
+      "cache": true
     }
-  },
-  "prune": {
-    "cache": true
   }
 }

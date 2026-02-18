@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
-import { PROTO_PATHS } from '@repo/proto-types';
+import { PROTO_PATHS } from '@repo/proto';
 import { WINSTON_MODULE_NEST_PROVIDER } from '@repo/logger';
 
 import { AppModule } from './app.module';

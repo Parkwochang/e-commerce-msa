@@ -13,7 +13,7 @@ export class UserController {
   @Get()
   async findAll() {
     this.logger.log('Fetching all users from User microservice');
-    return this.userGrpcService.findAll();
+    return this.userGrpcService.findAll({});
   }
 
   @Get(':id')

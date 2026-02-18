@@ -2,7 +2,7 @@ import { Controller, Logger } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { AuthService } from './auth.service';
 import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
-import { User } from '@repo/proto-types';
+import { User } from '@repo/proto';
 
 @Controller()
 export class AuthController {
