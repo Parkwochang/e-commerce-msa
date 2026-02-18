@@ -7,7 +7,7 @@ import { GrpcModule } from '@repo/config/grpc';
 
 import { AppController } from '@/app.controller';
 import { AppService } from '@/app.service';
-import { PROTO_PATHS } from '@repo/proto-types';
+import { PROTO_PATHS } from '@repo/proto';
 import { UserModule } from '@/user/user.module';
 
 // ------------------------------------------------------------

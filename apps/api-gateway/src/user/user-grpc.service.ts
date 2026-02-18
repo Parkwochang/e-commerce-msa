@@ -3,7 +3,7 @@ import { ClientGrpc } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 import { Metadata } from '@grpc/grpc-js';
 
-import { User } from '@repo/proto-types';
+import { User } from '@repo/proto';
 
 /**
  * User 마이크로서비스와 통신하는 gRPC 클라이언트 래퍼 서비스
@@ -22,8 +22,7 @@ export class UserGrpcService implements OnModuleInit {
   /**
    * 모든 사용자 조회
    */
-  findAll(): Observable<User.UserListResponse> {
-    const request: User.FindAllRequest = {};
+  findAll(request: User.FindAllRequest): Observable<User.UserListResponse> {
     return this.userService.findAll(request, new Metadata());
   }
 
@@ -32,6 +31,6 @@ export class UserGrpcService implements OnModuleInit {
    */
   findOne(id: string): Observable<User.UserResponse> {
     const request: User.FindOneRequest = { id };
-    return this.userService.findOne(request, new Metadata());
+    return this.userService.findOne({ id }, new Metadata());
   }
 }
