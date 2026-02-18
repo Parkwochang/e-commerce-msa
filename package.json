@@ -5,6 +5,8 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "start": "turbo run start",
+    "prune": "turbo prune --scope=$SCOPE --docker",
+    "build:app": "turbo run build --filter=$APP",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
@@ -14,7 +16,7 @@
     "common": "pnpm -F @repo/common",
     "config": "pnpm -F @repo/config",
     "logger": "pnpm -F @repo/logger",
-    "proto": "pnpm -F @repo/proto-types"
+    "proto": "pnpm -F @repo/proto"
   },
   "devDependencies": {
     "prettier": "catalog:",

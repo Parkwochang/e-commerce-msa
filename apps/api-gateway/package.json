@@ -22,7 +22,7 @@
   "dependencies": {
     "@repo/config": "workspace:*",
     "@repo/logger": "workspace:*",
-    "@repo/proto-types": "workspace:*",
+    "@repo/proto": "workspace:*",
     "@nestjs/common": "catalog:nestjs",
     "@nestjs/core": "catalog:nestjs",
     "@nestjs/microservices": "catalog:nestjs",

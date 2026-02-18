@@ -1,5 +1,5 @@
 {
-  "name": "@repo/proto-types",
+  "name": "@repo/proto",
   "version": "0.0.1",
   "private": true,
   "description": "Shared Protocol Buffer definitions and generated TypeScript types for gRPC services",
