@@ -7,6 +7,7 @@ import {
 import { type ConfigService } from '@nestjs/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
+import { DatabaseConfig } from '@repo/config/config';
 
 import { PrismaClient, Prisma } from '@/generated/prisma/client';
 
@@ -18,7 +19,9 @@ export class PrismaService
   private readonly logger = new Logger(PrismaService.name);
 
   constructor(private readonly configService: ConfigService) {
-    const databaseUrl = configService.get<string>('DATABASE_URL');
+    // 타입 안전한 접근
+    const databaseConfig = configService.get<DatabaseConfig>('database');
+    const databaseUrl = databaseConfig?.url || configService.get<string>('DATABASE_URL');
 
     const pool = new Pool({
       connectionString: databaseUrl,

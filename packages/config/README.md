@@ -1,6 +1,6 @@
 # @repo/config
 
-공유 설정 패키지 - Auth, gRPC 등의 설정을 중앙에서 관리합니다.
+공유 설정 패키지 - Auth, gRPC, Config 등의 설정을 중앙에서 관리합니다.
 
 ## 📦 설치
 
@@ -8,6 +8,73 @@
 # 각 앱에서 설치
 pnpm add @repo/config --filter <app-name>
 ```
+
+## ⚙️ ConfigModule (환경별 설정 관리)
+
+환경에 따라 자동으로 설정 소스를 선택합니다:
+- **로컬 환경**: `.env` 파일 사용
+- **프로덕션 환경**: Kubernetes가 주입한 환경 변수 사용 (Vault Agent Injector 등)
+
+### 사용법
+
+```typescript
+// app.module.ts
+import { ConfigModule } from '@repo/config/config';
+
+@Module({
+  imports: [
+    // 로컬: .env 파일 사용
+    // 프로덕션: Kubernetes가 주입한 환경 변수 사용
+    ConfigModule.forRoot(),
+  ],
+})
+export class AppModule {}
+```
+
+### 환경별 동작
+
+- **로컬 환경** (`NODE_ENV !== 'production'`):
+  - 프로젝트 루트의 `.env`, `.env.local` 파일 자동 로드
+  - `envFilePath` 옵션으로 커스텀 경로 지정 가능
+
+- **프로덕션 환경** (`NODE_ENV === 'production'`):
+  - Kubernetes가 주입한 환경 변수 사용
+  - Vault Agent Injector 또는 External Secrets Operator 사용 권장
+  - 애플리케이션 코드 변경 불필요
+
+### 커스텀 설정
+
+```typescript
+ConfigModule.forRoot({
+  envFilePath: ['.env.local', '.env.development'], // 커스텀 .env 파일 경로
+  envKey: 'NODE_ENV',                             // 환경 변수 이름 (기본값: 'NODE_ENV')
+  productionValue: 'production',                  // 프로덕션 값 (기본값: 'production')
+  envFileExtensions: ['', '.local'],               // .env 파일 확장자
+})
+```
+
+### 서비스에서 사용
+
+```typescript
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+
+@Injectable()
+export class MyService {
+  constructor(private readonly configService: ConfigService) {}
+
+  getDatabaseUrl() {
+    // 로컬: .env 파일에서 읽음
+    // 프로덕션: Kubernetes가 주입한 환경 변수에서 읽음
+    return this.configService.get<string>('DATABASE_URL');
+  }
+}
+```
+
+### Kubernetes Vault 설정
+
+Kubernetes 환경에서 Vault를 사용하려면 Vault Agent Injector 또는 External Secrets Operator를 설정하세요.
+자세한 내용은 [VAULT_SETUP.md](./VAULT_SETUP.md)를 참고하세요.
 
 ## 🔐 AuthModule
 
@@ -98,112 +165,18 @@ export class AppModule {}
 #### 마이크로서비스 (필요한 서비스만)
 
 ```typescript
-// order-service/app.module.ts
+// app.module.ts
 import { GrpcModule } from '@repo/config/grpc';
 
 @Module({
   imports: [
-    // 단일 클라이언트
     GrpcModule.forRoot({
-      name: 'USER_SERVICE',
-      url: process.env.USER_SERVICE_GRPC_URL || 'localhost:5001',
-      protoPath: 'proto/user.proto',
-      packageName: 'user',
+      name: 'ORDER_SERVICE',
+      url: process.env.ORDER_SERVICE_GRPC_URL || 'localhost:5002',
+      protoPath: 'proto/order.proto',
+      packageName: 'order',
     }),
   ],
 })
 export class AppModule {}
 ```
-
-### 컨트롤러에서 사용
-
-```typescript
-import { Controller, Get, Inject, OnModuleInit } from '@nestjs/common';
-import { ClientGrpc } from '@nestjs/microservices';
-import { Observable } from 'rxjs';
-
-// proto 파일과 일치하는 인터페이스 정의
-interface UserService {
-  findOne(data: { id: string }): Observable<any>;
-  findAll(data: {}): Observable<any>;
-}
-
-@Controller('users')
-export class UserController implements OnModuleInit {
-  private userService: UserService;
-
-  constructor(
-    @Inject('USER_SERVICE') private readonly client: ClientGrpc,
-  ) {}
-
-  onModuleInit() {
-    // gRPC 서비스 초기화
-    this.userService = this.client.getService<UserService>('UserService');
-  }
-
-  @Get()
-  findAll() {
-    return this.userService.findAll({});
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne({ id });
-  }
-}
-```
-
-## 📝 환경 변수
-
-### API Gateway (.env)
-
-```bash
-# JWT
-JWT_SECRET=your-super-secret-key-at-least-32-characters-long
-JWT_EXPIRES_IN=1h
-
-# gRPC Microservices
-USER_SERVICE_GRPC_URL=localhost:5001
-ORDER_SERVICE_GRPC_URL=localhost:5002
-PRODUCT_SERVICE_GRPC_URL=localhost:5003
-```
-
-### 마이크로서비스 (.env)
-
-```bash
-# JWT (같은 secret 사용)
-JWT_SECRET=your-super-secret-key-at-least-32-characters-long
-
-# 다른 마이크로서비스 (필요한 경우만)
-USER_SERVICE_GRPC_URL=localhost:5001
-```
-
-## 🏗️ 아키텍처
-
-```
-[API Gateway:3000]
-      ↓ gRPC
-   ┌──┴──┬──────┬──────┐
-   ↓     ↓      ↓      ↓
-[User] [Order] [Product] [Payment]
-:5001  :5002   :5003    :5004
-```
-
-- **API Gateway**: 모든 마이크로서비스와 통신 (여러 클라이언트)
-- **각 마이크로서비스**: 필요한 서비스만 클라이언트로 등록 (예: Order → User, Product)
-
-## 🎯 Best Practices
-
-1. **환경 변수 검증**: `class-validator` 사용
-2. **Proto 파일 공유**: `proto/` 디렉토리에 중앙 관리
-3. **타입 정의**: gRPC 인터페이스를 각 서비스에서 정의
-4. **에러 처리**: RxJS operators (`catchError`, `retry`) 활용
-5. **로깅**: `@repo/logger` 패키지 사용
-
-## 📚 더 알아보기
-
-- [NestJS Microservices](https://docs.nestjs.com/microservices/basics)
-- [gRPC Documentation](https://grpc.io/docs/)
-- [JWT Best Practices](https://tools.ietf.org/html/rfc8725)
-
-

@@ -2,22 +2,28 @@ import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 // pcakcage
 import { LoggerModule, TraceInterceptor } from '@repo/logger';
+import { ConfigModule } from '@repo/config/env';
 import { AuthModule } from '@repo/config/auth';
 import { GrpcModule } from '@repo/config/grpc';
+import { PROTO_PATHS } from '@repo/proto';
 
 import { AppController } from '@/app.controller';
 import { AppService } from '@/app.service';
-import { PROTO_PATHS } from '@repo/proto';
 import { UserModule } from '@/user/user.module';
 
-// ------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 @Module({
   imports: [
+    // - 로컬: .env 파일 사용
+    // - 프로덕션: Kubernetes가 주입한 환경 변수 사용 (Vault Agent Injector)
+    ConfigModule.forRoot({
+      appType: 'api',
+    }),
     // Winston 로거 모듈 등록
     LoggerModule.forRoot({
       serviceName: 'API_GATEWAY',
-      disableFileLog: process.env.NODE_ENV !== 'production', // production에서만 파일 로그 활성화
+      disableFileLog: process.env.NODE_ENV === 'production',
     }),
     AuthModule.forRoot({
       secret:

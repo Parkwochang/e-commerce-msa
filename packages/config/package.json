@@ -12,6 +12,10 @@
     "./grpc": {
       "types": "./dist/grpc/index.d.ts",
       "default": "./dist/grpc/index.js"
+    },
+    "./env": {
+      "types": "./dist/env/index.d.ts",
+      "default": "./dist/env/index.js"
     }
   },
   "typesVersions": {
@@ -21,6 +25,9 @@
       ],
       "grpc": [
         "./dist/grpc/index.d.ts"
+      ],
+      "env": [
+        "./dist/env/index.d.ts"
       ]
     }
   },
@@ -33,12 +40,14 @@
   "devDependencies": {
     "@nestjs/jwt": "catalog:auth",
     "@nestjs/common": "catalog:nestjs",
+    "@nestjs/config": "catalog:nestjs",
     "@nestjs/core": "catalog:nestjs",
     "@nestjs/microservices": "catalog:nestjs",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^22.10.7",
     "typescript": "catalog:",
-    "rxjs": "catalog:"
+    "rxjs": "catalog:",
+    "zod": "catalog:validation"
   },
   "peerDependencies": {
     "@nestjs/common": "^11.0.0",
