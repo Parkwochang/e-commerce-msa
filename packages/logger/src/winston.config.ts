@@ -97,7 +97,7 @@ const developmentFormat = printf(({ level, message, timestamp, context, trace, s
 export const createWinstonConfig = (options: WinstonConfigOptions): LoggerOptions => {
   const {
     serviceName,
-    disableFileLog = false,
+    disableFileLog = true,
     level = process.env.LOG_LEVEL || 'info',
     logDir = 'logs',
     maxSize = '100m',

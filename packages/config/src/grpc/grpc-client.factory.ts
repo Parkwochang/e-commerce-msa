@@ -1,4 +1,5 @@
-import { ClientOptions, ClientProviderOptions, Transport } from '@nestjs/microservices';
+import { Transport } from '@nestjs/microservices';
+import type { ClientProviderOptions, GrpcOptions } from '@nestjs/microservices';
 
 export interface GrpcClientOptions {
   name: string;
@@ -8,8 +9,6 @@ export interface GrpcClientOptions {
 }
 
 export function createGrpcClient(config: GrpcClientOptions): ClientProviderOptions {
-  const [host, port] = config.url.split(':');
-
   return {
     name: config.name,
     transport: Transport.GRPC,
@@ -17,6 +16,24 @@ export function createGrpcClient(config: GrpcClientOptions): ClientProviderOptio
       url: config.url,
       package: config.packageName,
       protoPath: config.protoPath,
+      loader: {
+        keepCase: true,
+        longs: String,
+        enums: String,
+        defaults: true,
+        oneofs: true,
+      },
+    },
+  };
+}
+
+export function connectGrpcClient(config: GrpcClientOptions): GrpcOptions {
+  return {
+    transport: Transport.GRPC,
+    options: {
+      package: config.packageName,
+      protoPath: config.protoPath,
+      url: config.url,
       loader: {
         keepCase: true,
         longs: String,

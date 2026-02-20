@@ -9,7 +9,7 @@ import { UserModule } from './user/user.module';
   imports: [
     LoggerModule.forRoot({
       serviceName: 'USER_SERVICE',
-      disableFileLog: process.env.NODE_ENV !== 'production', // production에서만 파일 로그 활성화 -> 쿠베용이므로 파일 로그 사용 x
+      disableFileLog: process.env.NODE_ENV === 'production',
     }),
     UserModule,
   ],

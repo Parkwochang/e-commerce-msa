@@ -1,35 +1,26 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import type { MicroserviceOptions } from '@nestjs/microservices';
 
 import { PROTO_PATHS } from '@repo/proto';
 import { WINSTON_MODULE_NEST_PROVIDER } from '@repo/logger';
+import { connectGrpcClient } from '@repo/config/grpc';
 
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  // Hybrid Application: HTTP + gRPC
   const app = await NestFactory.create(AppModule);
 
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
-  // gRPC Microservice 연결
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.GRPC,
-    options: {
-      package: 'user',
-      protoPath: PROTO_PATHS.USER,
+  app.connectMicroservice<MicroserviceOptions>(
+    connectGrpcClient({
+      name: 'USER_SERVICE',
       url: process.env.GRPC_URL || '0.0.0.0:5001',
-      loader: {
-        keepCase: true,
-        longs: String,
-        enums: String,
-        defaults: true,
-        oneofs: true,
-      },
-    },
-  });
-
+      protoPath: PROTO_PATHS.USER,
+      packageName: 'user',
+    }),
+  );
   // gRPC 서버 시작
   await app.startAllMicroservices();
 
