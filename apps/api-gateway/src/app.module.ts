@@ -22,12 +22,9 @@ import { UserModule } from '@/user/user.module';
 
 @Module({
   imports: [
-    // - 로컬: .env 파일 사용
-    // - 프로덕션: Kubernetes가 주입한 환경 변수 사용 (Vault Agent Injector)
     ConfigModule.forRoot({
       appType: 'api',
     }),
-    // Winston 로거 모듈 등록
     LoggerModule.forRoot({
       serviceName: 'API_GATEWAY',
       disableFileLog: process.env.NODE_ENV === 'production',

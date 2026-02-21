@@ -12,8 +12,6 @@ const CommonConfigSchema = z.object({
   REDIS_PORT      : z.string().transform(Number),
 });
 
-export type CommonConfigType = z.output<typeof CommonConfigSchema>;
-
 // ----------------------------------------------------------------------------
 // prettier-ignore
 
@@ -25,3 +23,5 @@ export const COMMON_CONFIG = registerAs('common', () => {
     REDIS_PORT      : process.env.REDIS_PORT,
   });
 });
+
+export type CommonConfigType = z.output<typeof CommonConfigSchema>;

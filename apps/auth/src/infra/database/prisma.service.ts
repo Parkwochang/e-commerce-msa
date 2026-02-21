@@ -7,9 +7,12 @@ import {
 import { type ConfigService } from '@nestjs/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
-import { DatabaseConfig } from '@repo/config/config';
+
+import { type AppConfigType } from '@repo/config/env';
 
 import { PrismaClient, Prisma } from '@/generated/prisma/client';
+
+// ----------------------------------------------------------------------------
 
 @Injectable()
 export class PrismaService
@@ -17,14 +20,13 @@ export class PrismaService
   implements OnModuleInit, OnModuleDestroy
 {
   private readonly logger = new Logger(PrismaService.name);
+  private pool: Pool;
 
   constructor(private readonly configService: ConfigService) {
-    // 타입 안전한 접근
-    const databaseConfig = configService.get<DatabaseConfig>('database');
-    const databaseUrl = databaseConfig?.url || configService.get<string>('DATABASE_URL');
+    const databaseConfig = configService.get<AppConfigType>('app');
 
     const pool = new Pool({
-      connectionString: databaseUrl,
+      connectionString: databaseConfig?.DATABASE_URL,
       max: 20,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 2000,
@@ -47,6 +49,9 @@ export class PrismaService
     };
 
     super(clientOptions);
+
+    // 클래스 상속 초기화 순서 보장을 위해 super 호출 후 pool 할당 (부모 클래스 prisma client 초기화 후 실행)
+    this.pool = pool;
   }
 
   async onModuleInit() {
@@ -73,5 +78,6 @@ export class PrismaService
 
   async onModuleDestroy() {
     await this.$disconnect();
+    await this.pool.end();
   }
 }

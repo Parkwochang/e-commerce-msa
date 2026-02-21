@@ -33,6 +33,7 @@ export const APP_CONFIG = registerAs('app', () => {
   });
 });
 
+// ----------------------------------------------------------------------------
 // prettier-ignore
 
 export const GATEWAY_CONFIG = registerAs('gateway', () => {

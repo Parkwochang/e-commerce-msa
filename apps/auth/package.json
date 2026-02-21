@@ -28,6 +28,7 @@
     "@repo/config": "workspace:*",
     "@repo/logger": "workspace:*",
     "@repo/proto": "workspace:*",
+    "@repo/redis": "workspace:*",
     "@nestjs/common": "catalog:nestjs",
     "@nestjs/core": "catalog:nestjs",
     "@nestjs/config": "catalog:nestjs",

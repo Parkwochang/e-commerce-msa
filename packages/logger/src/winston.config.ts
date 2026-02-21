@@ -4,6 +4,8 @@ import DailyRotateFile from 'winston-daily-rotate-file';
 
 import { getRequestContext, getTraceId } from './trace.context';
 
+// ----------------------------------------------------------------------------
+
 const { combine, timestamp, printf, colorize, errors, json } = winston.format;
 
 // 커스텀 색상 설정
