@@ -1,5 +1,5 @@
-import { DynamicModule, Global, Module } from '@nestjs/common';
-import { ConfigFactory, ConfigModule as NestConfigModule } from '@nestjs/config';
+import { type DynamicModule, Module } from '@nestjs/common';
+import { type ConfigFactory, ConfigModule as NestConfigModule } from '@nestjs/config';
 
 import { COMMON_CONFIG, APP_CONFIG, GATEWAY_CONFIG } from './index';
 
@@ -9,6 +9,8 @@ export interface ConfigModuleOptions {
   /**
    * .env 파일 경로 (로컬 환경에서 사용)
    * 기본값: 프로젝트 루트의 .env
+   * - 로컬: .env 파일 사용
+   * - 프로덕션: Kubernetes가 주입한 환경 변수 사용 (Vault Agent Injector)
    */
   envFilePath?: string | string[];
   /**
@@ -48,7 +50,7 @@ export interface ConfigModuleOptions {
  *   load: [appConfig, databaseConfig],
  * })
  */
-@Global()
+
 @Module({})
 export class ConfigModule {
   static forRoot(options: ConfigModuleOptions = {}): DynamicModule {
@@ -60,6 +62,7 @@ export class ConfigModule {
     } = options;
 
     return {
+      global: true,
       module: ConfigModule,
       imports: [
         NestConfigModule.forRoot({

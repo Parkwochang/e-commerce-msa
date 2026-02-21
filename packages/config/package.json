@@ -37,23 +37,21 @@
     "clean": "rm -rf dist",
     "check-types": "tsc --noEmit"
   },
-  "dependencies": {
-    "@nestjs/config": "catalog:nestjs",
-    "@nestjs/jwt": "catalog:auth",
-    "zod": "catalog:validation"
-  },
   "devDependencies": {
+    "@nestjs/jwt": "catalog:auth",
     "@nestjs/common": "catalog:nestjs",
+    "@nestjs/config": "catalog:nestjs",
     "@nestjs/core": "catalog:nestjs",
     "@nestjs/microservices": "catalog:nestjs",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^22.10.7",
     "typescript": "catalog:",
-    "rxjs": "catalog:"
+    "rxjs": "catalog:",
+    "zod": "catalog:validation"
   },
   "peerDependencies": {
-    "@nestjs/common": "^11.0.0",
-    "@nestjs/core": "^11.0.0",
-    "@nestjs/config": "^4.0.0"
+    "@nestjs/common": "catalog:nestjs",
+    "@nestjs/core": "catalog:nestjs",
+    "@nestjs/config": "catalog:nestjs"
   }
 }
