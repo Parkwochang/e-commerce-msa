@@ -1,10 +1,17 @@
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
 // pcakcage
 import { LoggerModule, TraceInterceptor } from '@repo/logger';
-import { ConfigModule } from '@repo/config/env';
+import {
+  ConfigModule,
+  COMMON_CONFIG,
+  GATEWAY_CONFIG,
+  type CommonConfigType,
+  type GatewayConfigType,
+} from '@repo/config/env';
 import { AuthModule } from '@repo/config/auth';
-import { GrpcModule } from '@repo/config/grpc';
+import { GRPC_PACKAGE, GRPC_SERVICE, GrpcModule } from '@repo/config/grpc';
 import { PROTO_PATHS } from '@repo/proto';
 
 import { AppController } from '@/app.controller';
@@ -25,31 +32,45 @@ import { UserModule } from '@/user/user.module';
       serviceName: 'API_GATEWAY',
       disableFileLog: process.env.NODE_ENV === 'production',
     }),
-    AuthModule.forRoot({
-      secret:
-        process.env.JWT_SECRET || 'default-secret-key-change-in-production',
-      expiresIn: '1h',
-    }),
-    // gRPC 클라이언트 등록 (여러 마이크로서비스와 통신)
-    GrpcModule.forRoot([
-      {
-        name: 'USER_SERVICE',
-        url: process.env.USER_SERVICE_GRPC_URL || 'localhost:5001',
-        protoPath: PROTO_PATHS.USER,
-        packageName: 'user',
+
+    AuthModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const commonConfig = configService.get<CommonConfigType>(
+          COMMON_CONFIG.KEY,
+        );
+
+        if (!commonConfig) {
+          throw new Error('Common config is required');
+        }
+
+        return {
+          secret: commonConfig.JWT_SECRET,
+          expiresIn: commonConfig.JWT_EXPIRES_IN,
+        };
       },
-      // {
-      //   name: 'ORDER_SERVICE',
-      //   url: process.env.ORDER_SERVICE_GRPC_URL || 'localhost:5002',
-      //   protoPath: PROTO_PATHS.ORDER,
-      //   packageName: 'order',
-      // },
-      // {
-      //   name: 'PRODUCT_SERVICE',
-      //   url: process.env.PRODUCT_SERVICE_GRPC_URL || 'localhost:5003',
-      //   protoPath: PROTO_PATHS.PRODUCT,
-      //   packageName: 'product',
-      // },
+    }),
+
+    GrpcModule.registerAsync([
+      {
+        name: GRPC_SERVICE.USER,
+        useFactory: (configService: ConfigService) => {
+          const gatewayConfig = configService.get<GatewayConfigType>(
+            GATEWAY_CONFIG.KEY,
+          );
+
+          if (!gatewayConfig) {
+            throw new Error('Gateway config is required');
+          }
+
+          return {
+            url: gatewayConfig.USER_GRPC_URL,
+            package: GRPC_PACKAGE.USER,
+            protoPath: PROTO_PATHS.USER,
+            inject: [ConfigService],
+          };
+        },
+      },
     ]),
     // Feature Modules
     UserModule,

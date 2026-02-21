@@ -1,11 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type Redis from 'ioredis';
 
-import { REDIS_CLIENT } from './redis.constants';
+import { REDIS_CACHE } from './redis.constants';
+
+// ----------------------------------------------------------------------------
 
 @Injectable()
 export class RedisService {
-  constructor(@Inject(REDIS_CLIENT) private redis: Redis) {}
+  constructor(@Inject(REDIS_CACHE) private readonly redis: Redis) {}
 
   async get(key: string) {
     return this.redis.get(key);

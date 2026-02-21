@@ -1,36 +1,42 @@
+import Redis from 'ioredis';
 import { Module, DynamicModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import Redis from 'ioredis';
-import { RedisConfig } from '@repo/config/config';
+
+import { COMMON_CONFIG, type CommonConfigType } from '@repo/config/env';
 
 import { RedisService } from './redis.service';
-import { REDIS_CLIENT } from './redis.constants';
+import { REDIS_CACHE } from './redis.constants';
+
+// ----------------------------------------------------------------------------
 
 @Module({})
 export class RedisModule {
   static forRootAsync(): DynamicModule {
     return {
       module: RedisModule,
+      global: true,
       imports: [ConfigModule],
       providers: [
         {
-          provide: REDIS_CLIENT,
+          provide: REDIS_CACHE,
           useFactory: (configService: ConfigService) => {
-            // 타입 안전한 접근
-            const redisConfig = configService.get<RedisConfig>('redis');
+            const redisConfig = configService.get<CommonConfigType>(COMMON_CONFIG.KEY);
+
+            if (!redisConfig) {
+              throw new Error('Redis config is required');
+            }
+
             return new Redis({
-              host: redisConfig?.host || configService.get<string>('REDIS_HOST', 'localhost'),
-              port: redisConfig?.port || configService.get<number>('REDIS_PORT', 6379),
-              password: redisConfig?.password,
-              db: redisConfig?.db,
-              connectTimeout: redisConfig?.connectTimeout || 5000,
+              host: redisConfig.REDIS_HOST,
+              port: redisConfig.REDIS_PORT,
+              connectTimeout: 5000,
             });
           },
           inject: [ConfigService],
         },
         RedisService,
       ],
-      exports: [REDIS_CLIENT, RedisService],
+      exports: [RedisService],
     };
   }
 }
