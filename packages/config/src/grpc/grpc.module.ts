@@ -1,6 +1,21 @@
-import { Module, DynamicModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import type { DynamicModule, ModuleMetadata, Provider } from '@nestjs/common';
 import { ClientsModule } from '@nestjs/microservices';
-import { createGrpcClient, GrpcClientOptions } from './grpc-client.factory';
+
+import { createGrpcClientProvider } from './grpc-client.factory';
+import { createGrpcClient, type GrpcClientOptions } from './grpc.options';
+
+interface GrpcClientAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
+  name: string;
+
+  useFactory: (...args: any[]) => {
+    url: string;
+    package: string;
+    protoPath: string;
+  };
+
+  inject?: any[];
+}
 
 @Module({})
 export class GrpcModule {
@@ -41,6 +56,41 @@ export class GrpcModule {
       global: true,
       imports: [ClientsModule.register(clients.map((client) => createGrpcClient(client)))],
       exports: [ClientsModule],
+    };
+  }
+
+  /**
+   * 비동기적으로 gRPC 클라이언트 등록 (ConfigService 등 사용 시)
+   * @example
+   * GrpcModule.registerAsync([{
+   *   name: 'ORDER_GRPC',
+   *   useFactory: (config: ConfigService) => ({
+   *     url: config.get('grpc.order.url'),
+   *     package: 'order',
+   *     protoPath: 'order.proto',
+   *   }),
+   *   inject: [ConfigService],
+   * }])
+   */
+  static registerAsync(options: GrpcClientAsyncOptions[]): DynamicModule {
+    const providers: Provider[] = options.map((option) => {
+      return {
+        provide: option.name,
+        useFactory: async (...args: any[]) => {
+          const config = await option.useFactory(...args);
+
+          return createGrpcClientProvider(option.name, config);
+        },
+        inject: option.inject || [],
+      };
+    });
+
+    return {
+      module: GrpcModule,
+      global: true,
+      imports: options.flatMap((o) => o.imports || []),
+      providers,
+      exports: providers,
     };
   }
 }

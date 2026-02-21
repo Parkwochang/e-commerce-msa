@@ -1,46 +1,20 @@
-import { Transport } from '@nestjs/microservices';
-import type { ClientProviderOptions, GrpcOptions } from '@nestjs/microservices';
+import { Provider } from '@nestjs/common';
+import { ClientGrpcProxy, ClientProxyFactory } from '@nestjs/microservices';
 
-export interface GrpcClientOptions {
-  name: string;
-  url: string;
-  protoPath: string;
-  packageName: string;
-}
+import { createGrpcOptions } from './grpc.options';
 
-export function createGrpcClient(config: GrpcClientOptions): ClientProviderOptions {
-  return {
-    name: config.name,
-    transport: Transport.GRPC,
-    options: {
-      url: config.url,
-      package: config.packageName,
-      protoPath: config.protoPath,
-      loader: {
-        keepCase: true,
-        longs: String,
-        enums: String,
-        defaults: true,
-        oneofs: true,
-      },
-    },
-  };
-}
+// ----------------------------------------------------------------------------
 
-export function connectGrpcClient(config: GrpcClientOptions): GrpcOptions {
-  return {
-    transport: Transport.GRPC,
-    options: {
-      package: config.packageName,
-      protoPath: config.protoPath,
-      url: config.url,
-      loader: {
-        keepCase: true,
-        longs: String,
-        enums: String,
-        defaults: true,
-        oneofs: true,
-      },
-    },
-  };
-}
+export const createGrpcClientProvider = (
+  provide: string,
+  options: {
+    url: string;
+    package: string;
+    protoPath: string;
+  },
+): Provider => ({
+  provide,
+  useFactory: () => {
+    return ClientProxyFactory.create(createGrpcOptions(options)) as unknown as ClientGrpcProxy;
+  },
+});

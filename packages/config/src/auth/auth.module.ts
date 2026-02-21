@@ -1,9 +1,10 @@
 import { JwtModule } from '@nestjs/jwt';
-import { type DynamicModule, Global, Module } from '@nestjs/common';
+import { type DynamicModule, Module } from '@nestjs/common';
 
 import { type AuthConfigOptions, createAuthConfig } from './auth.factory';
 
-@Global() // 모든 모듈에서 사용 가능
+// ----------------------------------------------------------------------------
+
 @Module({})
 export class AuthModule {
   /**

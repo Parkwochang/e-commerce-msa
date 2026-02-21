@@ -24,7 +24,7 @@ const GatewayConfigSchema = z.object({
 // ----------------------------------------------------------------------------
 // prettier-ignore
 
-export const APP_CONFIG = registerAs<z.output<typeof AppConfigSchema>>('app', () => {
+export const APP_CONFIG = registerAs('app', () => {
   return AppConfigSchema.parse({
     DATABASE_URL  : process.env.DATABASE_URL,
     GRPC_URL      : process.env.GRPC_URL,
@@ -35,7 +35,7 @@ export const APP_CONFIG = registerAs<z.output<typeof AppConfigSchema>>('app', ()
 
 // prettier-ignore
 
-export const GATEWAY_CONFIG = registerAs<z.output<typeof GatewayConfigSchema>>('gateway', () => {
+export const GATEWAY_CONFIG = registerAs('gateway', () => {
   return GatewayConfigSchema.parse({
     HTTP_PORT       : process.env.HTTP_PORT,
     AUTH_GRPC_URL   : process.env.AUTH_GRPC_URL,
@@ -44,3 +44,6 @@ export const GATEWAY_CONFIG = registerAs<z.output<typeof GatewayConfigSchema>>('
     PRODUCT_GRPC_URL: process.env.PRODUCT_GRPC_URL,
   });
 });
+
+export type AppConfigType = z.output<typeof AppConfigSchema>;
+export type GatewayConfigType = z.output<typeof GatewayConfigSchema>;
