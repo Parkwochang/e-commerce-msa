@@ -1,9 +1,10 @@
 import { Injectable, Inject, OnModuleInit } from '@nestjs/common';
-import { ClientGrpc } from '@nestjs/microservices';
-import { Observable } from 'rxjs';
+import { type ClientGrpc } from '@nestjs/microservices';
 import { Metadata } from '@grpc/grpc-js';
+import { Observable } from 'rxjs';
 
 import { User } from '@repo/proto';
+import { GRPC_SERVICE } from '@repo/config/grpc';
 
 /**
  * User 마이크로서비스와 통신하는 gRPC 클라이언트 래퍼 서비스
@@ -12,7 +13,7 @@ import { User } from '@repo/proto';
 export class UserGrpcService implements OnModuleInit {
   private userService!: User.UserServiceClient; // onModuleInit에서 초기화됨
 
-  constructor(@Inject('USER_SERVICE') private readonly client: ClientGrpc) {}
+  constructor(@Inject(GRPC_SERVICE.USER) private readonly client: ClientGrpc) {}
 
   onModuleInit() {
     this.userService =

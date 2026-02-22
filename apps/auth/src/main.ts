@@ -1,35 +1,41 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { type ConfigType } from '@nestjs/config';
 
 import { PROTO_PATHS } from '@repo/proto';
 import { WINSTON_MODULE_NEST_PROVIDER } from '@repo/logger';
-import { connectGrpcClient } from '@repo/config/grpc';
+import { connectGrpcServer, GRPC_PACKAGE } from '@repo/config/grpc';
+import { APP_CONFIG } from '@repo/config/env';
 
 import { AppModule } from './app.module';
 
+// ----------------------------------------------------------------------------
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const appConfig = app.get<ConfigType<typeof APP_CONFIG>>(APP_CONFIG.KEY);
+
+  if (!appConfig) {
+    throw new Error('APP_CONFIG is required');
+  }
 
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
-  app.connectMicroservice<MicroserviceOptions>(
-    connectGrpcClient({
-      name: 'AUTH_SERVICE',
-      url: process.env.GRPC_URL || '0.0.0.0:5001',
+  app.connectMicroservice(
+    connectGrpcServer({
+      url: appConfig.GRPC_URL,
       protoPath: PROTO_PATHS.USER,
-      packageName: 'user',
+      package: GRPC_PACKAGE.USER,
     }),
   );
 
   await app.startAllMicroservices();
 
-  Logger.log('✅ gRPC Server is running on: 0.0.0.0:5002');
+  Logger.log(`✅ gRPC Server is running on: ${appConfig.GRPC_URL}`);
 
-  const httpPort = process.env.HTTP_PORT ?? 4002;
-  await app.listen(httpPort);
+  await app.listen(appConfig.HTTP_PORT);
 
-  Logger.log(`🚀 HTTP Server is running on: http://localhost:${httpPort}`);
+  Logger.log(`🚀 HTTP Server is running port: ${appConfig.HTTP_PORT}`);
 }
 
 bootstrap();

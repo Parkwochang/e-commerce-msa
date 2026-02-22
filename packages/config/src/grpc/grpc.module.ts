@@ -3,7 +3,9 @@ import type { DynamicModule, ModuleMetadata, Provider } from '@nestjs/common';
 import { ClientsModule } from '@nestjs/microservices';
 
 import { createGrpcClientProvider } from './grpc-client.factory';
-import { createGrpcClient, type GrpcClientOptions } from './grpc.options';
+import { createGrpcOptions, type GrpcClientOptions } from './grpc.options';
+
+// ----------------------------------------------------------------------------
 
 interface GrpcClientAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
   name: string;
@@ -28,7 +30,7 @@ export class GrpcModule {
    *   name: 'USER_SERVICE',
    *   url: 'localhost:5001',
    *   protoPath: 'proto/user.proto',
-   *   packageName: 'user',
+   *   package: 'user',
    * })
    *
    * @example
@@ -38,13 +40,13 @@ export class GrpcModule {
    *     name: 'USER_SERVICE',
    *     url: 'localhost:5001',
    *     protoPath: 'proto/user.proto',
-   *     packageName: 'user',
+   *     package: 'user',
    *   },
    *   {
    *     name: 'ORDER_SERVICE',
    *     url: 'localhost:5002',
    *     protoPath: 'proto/order.proto',
-   *     packageName: 'order',
+   *     package: 'order',
    *   },
    * ])
    */
@@ -54,7 +56,14 @@ export class GrpcModule {
     return {
       module: GrpcModule,
       global: true,
-      imports: [ClientsModule.register(clients.map((client) => createGrpcClient(client)))],
+      imports: [
+        ClientsModule.register(
+          clients.map(({ name, ...rest }) => ({
+            name,
+            ...createGrpcOptions(rest),
+          })),
+        ),
+      ],
       exports: [ClientsModule],
     };
   }
@@ -73,17 +82,7 @@ export class GrpcModule {
    * }])
    */
   static registerAsync(options: GrpcClientAsyncOptions[]): DynamicModule {
-    const providers: Provider[] = options.map((option) => {
-      return {
-        provide: option.name,
-        useFactory: async (...args: any[]) => {
-          const config = await option.useFactory(...args);
-
-          return createGrpcClientProvider(option.name, config);
-        },
-        inject: option.inject || [],
-      };
-    });
+    const providers: Provider[] = options.map((option) => createGrpcClientProvider(option));
 
     return {
       module: GrpcModule,
