@@ -69,9 +69,9 @@ import { UserModule } from '@/user/user.module';
         },
       },
     ]),
+
     // Feature Modules
     UserModule,
-    // OrderModule, // ORDER_SERVICE가 활성화되면 주석 해제
   ],
   controllers: [AppController],
   providers: [

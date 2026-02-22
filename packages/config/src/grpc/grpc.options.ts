@@ -1,5 +1,5 @@
 import { Transport } from '@nestjs/microservices';
-import type { ClientOptions, ClientProviderOptions, GrpcOptions } from '@nestjs/microservices';
+import type { ClientOptions, GrpcOptions } from '@nestjs/microservices';
 
 // ----------------------------------------------------------------------------
 
@@ -8,25 +8,6 @@ export interface GrpcClientOptions {
   url: string;
   protoPath: string;
   package: string;
-}
-
-export function createGrpcClient(config: GrpcClientOptions): ClientProviderOptions {
-  const { name, ...rest } = config;
-
-  return {
-    name,
-    transport: Transport.GRPC,
-    options: {
-      ...rest,
-      loader: {
-        keepCase: true,
-        longs: String,
-        enums: String,
-        defaults: true,
-        oneofs: true,
-      },
-    },
-  };
 }
 
 // ----------------------------------------------------------------------------
@@ -54,19 +35,26 @@ export const createGrpcOptions = (config: Omit<GrpcClientOptions, 'name'>): Clie
 };
 
 // ----------------------------------------------------------------------------
-// ! 서비스에서 grpc 연결
+// ! 서비스 서버 grpc 등록용
 
-export function connectGrpcClient(config: Omit<GrpcClientOptions, 'name'>): GrpcOptions {
+export function connectGrpcServer(config: { url: string; protoPath: string; package: string }): GrpcOptions {
   return {
     transport: Transport.GRPC,
     options: {
-      ...config,
+      url: config.url,
+      protoPath: config.protoPath,
+      package: config.package,
       loader: {
         keepCase: true,
         longs: String,
         enums: String,
         defaults: true,
         oneofs: true,
+      },
+      channelOptions: {
+        'grpc.keepalive_time_ms': 10000,
+        'grpc.keepalive_timeout_ms': 5000,
+        'grpc.keepalive_permit_without_calls': 1,
       },
     },
   };
