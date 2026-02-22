@@ -39,7 +39,7 @@ protoc --version
 
 ```bash
 cd packages/proto-types
-pnpm generate
+pnpm generate:ts
 ```
 
 ### 패키지 빌드
@@ -76,7 +76,7 @@ app.connectMicroservice({
   transport: Transport.GRPC,
   options: {
     package: 'user',
-    protoPath: PROTO_PATHS.USER,  // ← 패키지를 통해 경로 제공!
+    protoPath: PROTO_PATHS.USER, // ← 패키지를 통해 경로 제공!
   },
 });
 
@@ -91,6 +91,7 @@ GrpcModule.forRoot([
 ```
 
 **장점:**
+
 - ✅ 상대 경로(`../../../`) 불필요
 - ✅ 패키지 버전과 함께 관리
 - ✅ 타입 안전성
@@ -108,10 +109,9 @@ GrpcModule.forRoot([
 1. `proto/` 디렉토리에 새 `.proto` 파일 추가
 2. `package.json`의 `exports`에 새 엔트리 포인트 추가
 3. `src/index.ts`에서 export 추가
-4. `pnpm generate && pnpm build` 실행
+4. `pnpm build` 실행
 
 ## ⚡ Turborepo 캐싱
 
 - Proto 파일이 변경되지 않으면 캐시된 빌드 사용
 - 실제로 타입이 변경될 때만 의존하는 서비스가 재빌드됨
-

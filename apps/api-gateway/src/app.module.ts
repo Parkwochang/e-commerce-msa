@@ -6,12 +6,15 @@ import { LoggerModule, TraceInterceptor } from '@repo/logger';
 import {
   ConfigModule,
   COMMON_CONFIG,
-  GATEWAY_CONFIG,
   type CommonConfigType,
-  type GatewayConfigType,
 } from '@repo/config/env';
 import { AuthModule } from '@repo/config/auth';
-import { GRPC_PACKAGE, GRPC_SERVICE, GrpcModule } from '@repo/config/grpc';
+import {
+  createGrpcClientConfig,
+  GRPC_PACKAGE,
+  GRPC_SERVICE,
+  GrpcModule,
+} from '@repo/config/grpc';
 import { PROTO_PATHS } from '@repo/proto';
 
 import { AppController } from '@/app.controller';
@@ -49,25 +52,16 @@ import { UserModule } from '@/user/user.module';
     }),
 
     GrpcModule.registerAsync([
-      {
-        name: GRPC_SERVICE.USER,
-        useFactory: (configService: ConfigService) => {
-          const gatewayConfig = configService.get<GatewayConfigType>(
-            GATEWAY_CONFIG.KEY,
-          );
-
-          if (!gatewayConfig) {
-            throw new Error('Gateway config is required');
-          }
-
-          return {
-            url: gatewayConfig.USER_GRPC_URL,
-            package: GRPC_PACKAGE.USER,
-            protoPath: PROTO_PATHS.USER,
-            inject: [ConfigService],
-          };
-        },
-      },
+      createGrpcClientConfig(GRPC_SERVICE.USER, (config) => ({
+        url: config.USER_GRPC_URL,
+        package: GRPC_PACKAGE.USER,
+        protoPath: PROTO_PATHS.USER,
+      })),
+      createGrpcClientConfig(GRPC_SERVICE.ORDER, (config) => ({
+        url: config.ORDER_GRPC_URL,
+        package: GRPC_PACKAGE.ORDER,
+        protoPath: PROTO_PATHS.ORDER,
+      })),
     ]),
 
     // Feature Modules

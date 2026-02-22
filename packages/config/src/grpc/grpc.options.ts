@@ -1,13 +1,13 @@
+import { ConfigService, ConfigType } from '@nestjs/config';
 import { Transport } from '@nestjs/microservices';
 import type { ClientOptions, GrpcOptions } from '@nestjs/microservices';
 
+import { GATEWAY_CONFIG, type GatewayConfigType } from '../env';
+
 // ----------------------------------------------------------------------------
 
-export interface GrpcClientOptions {
+export interface GrpcClientOptions extends GrpcClientConfig {
   name: string;
-  url: string;
-  protoPath: string;
-  package: string;
 }
 
 // ----------------------------------------------------------------------------
@@ -37,7 +37,7 @@ export const createGrpcOptions = (config: Omit<GrpcClientOptions, 'name'>): Clie
 // ----------------------------------------------------------------------------
 // ! 서비스 서버 grpc 등록용
 
-export function connectGrpcServer(config: { url: string; protoPath: string; package: string }): GrpcOptions {
+export function connectGrpcServer(config: GrpcClientConfig): GrpcOptions {
   return {
     transport: Transport.GRPC,
     options: {
@@ -59,3 +59,25 @@ export function connectGrpcServer(config: { url: string; protoPath: string; pack
     },
   };
 }
+
+// ----------------------------------------------------------------------------
+// ! 서비스 grpc 클라이언트 등록용 -> useFactory config 사용 간소화
+
+export const createGrpcClientConfig = (
+  name: string,
+  getConfig: (config: GatewayConfigType) => Promise<GrpcClientConfig> | GrpcClientConfig,
+  inject?: any[],
+) => ({
+  name,
+  useFactory: async (configService: ConfigService) => {
+    const gatewayConfig = configService.get<GatewayConfigType>(GATEWAY_CONFIG.KEY);
+
+    if (!gatewayConfig) {
+      throw new Error('Gateway config is required');
+    }
+
+    return await getConfig(gatewayConfig);
+  },
+  inject: inject || [ConfigService],
+  imports: [],
+});

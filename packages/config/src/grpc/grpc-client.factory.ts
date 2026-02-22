@@ -5,18 +5,6 @@ import { createGrpcOptions } from './grpc.options';
 
 // ----------------------------------------------------------------------------
 
-type GrpcClientConfig = {
-  url: string;
-  package: string;
-  protoPath: string;
-};
-
-interface GrpcClientAsyncConfig {
-  name: string;
-  useFactory: (...args: any[]) => Promise<GrpcClientConfig> | GrpcClientConfig;
-  inject?: any[];
-}
-
 /**
  * gRPC 클라이언트 팩토리 함수
  * @description 비동기적으로 gRPC 클라이언트를 등록합니다.
