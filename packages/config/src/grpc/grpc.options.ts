@@ -50,14 +50,6 @@ export const createGrpcClientConfig = (
   inject?: any[],
 ) => ({
   name,
-  useFactory: async (configService: ConfigService) => {
-    const gatewayConfig = configService.get<GatewayConfigType>(GATEWAY_CONFIG.KEY);
-
-    if (!gatewayConfig) {
-      throw new Error('Gateway config is required');
-    }
-
-    return await getConfig(gatewayConfig);
-  },
-  inject: inject || [ConfigService],
+  useFactory: async (gatewayConfig: GatewayConfigType) => await getConfig(gatewayConfig),
+  inject: inject || [GATEWAY_CONFIG.KEY],
 });

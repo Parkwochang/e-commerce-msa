@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { User } from '@repo/proto-types';
+import { User } from '@repo/proto';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +32,6 @@ export class AuthService {
   }
 
   async validateUser(email: string, password: string) {
-
     return true;
     // return this.userRepository.validateUser(email, password);
   }

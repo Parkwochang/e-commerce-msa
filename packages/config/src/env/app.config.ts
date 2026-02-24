@@ -4,7 +4,7 @@ import { registerAs } from '@nestjs/config';
 // ----------------------------------------------------------------------------
 // prettier-ignore
 
-const AppConfigSchema = z.object({
+export const AppConfigSchema = z.object({
   DATABASE_URL  : z.string(),
   GRPC_URL      : z.string(),
   HTTP_PORT     : z.string().transform(Number),
@@ -13,12 +13,12 @@ const AppConfigSchema = z.object({
 
 // prettier-ignore
 
-const GatewayConfigSchema = z.object({
+export const GatewayConfigSchema = z.object({
   HTTP_PORT         : z.string().transform(Number),
   AUTH_GRPC_URL     : z.string(),
   USER_GRPC_URL     : z.string(),
-  ORDER_GRPC_URL    : z.string(),
-  PRODUCT_GRPC_URL  : z.string(),
+  // ORDER_GRPC_URL    : z.string(),
+  // PRODUCT_GRPC_URL  : z.string(),
 });
 
 // ----------------------------------------------------------------------------
@@ -41,8 +41,8 @@ export const GATEWAY_CONFIG = registerAs('gateway', () => {
     HTTP_PORT       : process.env.HTTP_PORT,
     AUTH_GRPC_URL   : process.env.AUTH_GRPC_URL,
     USER_GRPC_URL   : process.env.USER_GRPC_URL,
-    ORDER_GRPC_URL  : process.env.ORDER_GRPC_URL,
-    PRODUCT_GRPC_URL: process.env.PRODUCT_GRPC_URL,
+    // ORDER_GRPC_URL  : process.env.ORDER_GRPC_URL,
+    // PRODUCT_GRPC_URL: process.env.PRODUCT_GRPC_URL,
   });
 });
 

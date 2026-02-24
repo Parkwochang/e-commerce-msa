@@ -1,35 +1,45 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { type ConfigType } from '@nestjs/config';
 
 import { PROTO_PATHS } from '@repo/proto';
 import { WINSTON_MODULE_NEST_PROVIDER } from '@repo/logger';
 import { connectGrpcServer } from '@repo/config/grpc';
 import { GRPC_PACKAGE } from '@repo/config/grpc';
+import { APP_CONFIG } from '@repo/config/env';
 
 import { AppModule } from './app.module';
 
+// ----------------------------------------------------------------------------
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const appConfig = app.get<ConfigType<typeof APP_CONFIG>>(APP_CONFIG.KEY);
+
+  if (!appConfig) {
+    throw new Error('APP_CONFIG is required');
+  }
 
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
   app.connectMicroservice(
     connectGrpcServer({
-      url: process.env.GRPC_URL || '0.0.0.0:5001',
+      url: appConfig.GRPC_URL,
       protoPath: PROTO_PATHS.USER,
       package: GRPC_PACKAGE.USER,
     }),
+    { inheritAppConfig: true },
   );
+
   // gRPC 서버 시작
   await app.startAllMicroservices();
 
-  Logger.log('✅ gRPC Server is running on: 0.0.0.0:5001');
+  Logger.log(`✅ gRPC Server is running on: ${appConfig.GRPC_URL}`);
 
-  // HTTP 서버 (헬스체크, 메트릭 등을 위해)
-  const httpPort = process.env.HTTP_PORT ?? 4001;
-  await app.listen(httpPort);
+  await app.listen(appConfig.HTTP_PORT);
 
-  Logger.log(`🚀 HTTP Server is running on: http://localhost:${httpPort}`);
+  Logger.log(`🚀 HTTP Server is running port: ${appConfig.HTTP_PORT}`);
 }
 
 bootstrap();

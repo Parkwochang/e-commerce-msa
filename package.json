@@ -5,6 +5,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "start": "turbo run start",
+    "start:dev": "turbo run start:dev",
     "prune": "turbo prune --scope=$SCOPE --docker",
     "build:app": "turbo run build --filter=$APP",
     "lint": "turbo run lint",

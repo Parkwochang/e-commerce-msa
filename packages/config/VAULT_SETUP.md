@@ -17,11 +17,11 @@ spec:
     metadata:
       annotations:
         # Vault Agent Injector 활성화
-        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-inject: 'true'
         # Vault 주소
-        vault.hashicorp.com/role: "auth-service"
+        vault.hashicorp.com/role: 'auth-service'
         # 주입할 시크릿 경로
-        vault.hashicorp.com/agent-inject-secret-config: "secret/data/auth/config"
+        vault.hashicorp.com/agent-inject-secret-config: 'secret/data/auth/config'
         # 환경 변수로 주입 (템플릿)
         vault.hashicorp.com/agent-inject-template-config: |
           {{- with secret "secret/data/auth/config" -}}
@@ -30,7 +30,7 @@ spec:
           {{- end }}
           {{- end }}
         # 추가 시크릿 경로
-        vault.hashicorp.com/agent-inject-secret-database: "secret/data/auth/database"
+        vault.hashicorp.com/agent-inject-secret-database: 'secret/data/auth/database'
         vault.hashicorp.com/agent-inject-template-database: |
           {{- with secret "secret/data/auth/database" -}}
           {{- range $k, $v := .Data.data }}

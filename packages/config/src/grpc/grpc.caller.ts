@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { catchError, lastValueFrom, Observable, retry, timeout } from 'rxjs';
-import CircuitBreaker from 'opossum';
+import * as CircuitBreaker from 'opossum';
 
 // ----------------------------------------------------------------------------
 
@@ -32,6 +32,16 @@ export class GrpcCaller {
       timeout: 3000,
       errorThresholdPercentage: 50,
       resetTimeout: 10000,
+      // 최소 요청 수: 너무 적은 요청에서 서킷이 열리는 것을 방지
+      volumeThreshold: 5,
+      // 워밍업 기간: 초기 실패가 서킷을 즉시 열지 않도록
+      allowWarmUp: true,
+      // 통계 윈도우: 10초 동안의 통계를 추적
+      rollingCountTimeout: 10000,
+      // 통계 버킷: 1초 단위로 10개 버킷
+      rollingCountBuckets: 10,
+      // 동시 요청 수 제한: 무제한 동시 요청 방지
+      capacity: 100,
     });
   }
 
