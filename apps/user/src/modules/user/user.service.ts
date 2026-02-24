@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { User } from '@repo/proto-types';
+import { User } from '@repo/proto';
 
 /**
  * User Service

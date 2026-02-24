@@ -28,14 +28,15 @@ export class TraceInterceptor implements NestInterceptor {
     // HTTP 요청 (API Gateway 등)
     if (contextType === 'http') {
       const request = context.switchToHttp().getRequest();
+
       traceId = request.headers['x-trace-id'] || generateTraceId();
     }
     // gRPC 요청 (마이크로서비스)
     else if (contextType === 'rpc') {
       const rpcContext = context.switchToRpc().getContext();
-      const traceIdArray = rpcContext?.metadata?.get('x-trace-id');
+      const traceIdArray = rpcContext?.get?.('x-trace-id');
 
-      traceId = traceIdArray?.[0] || generateTraceId();
+      traceId = (traceIdArray?.[0] as string) || generateTraceId();
     }
     // 기타 (WebSocket 등)
     else {

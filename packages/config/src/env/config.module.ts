@@ -1,7 +1,7 @@
 import { type DynamicModule, Module } from '@nestjs/common';
 import { type ConfigFactory, ConfigModule as NestConfigModule } from '@nestjs/config';
 
-import { COMMON_CONFIG, APP_CONFIG, GATEWAY_CONFIG } from './index';
+import { COMMON_CONFIG, APP_CONFIG, GATEWAY_CONFIG, AppConfigSchema, GatewayConfigSchema } from './index';
 
 // ----------------------------------------------------------------------------
 
@@ -54,12 +54,7 @@ export interface ConfigModuleOptions {
 @Module({})
 export class ConfigModule {
   static forRoot(options: ConfigModuleOptions = {}): DynamicModule {
-    const {
-      envFilePath = ['.env', '.env.local'],
-      envKey = 'NODE_ENV',
-      appType = 'api',
-      load = [COMMON_CONFIG, appType === 'api' ? APP_CONFIG : GATEWAY_CONFIG],
-    } = options;
+    const { envFilePath = ['.env', '.env.local'], envKey = 'NODE_ENV', appType = 'api', load } = options;
 
     return {
       global: true,
@@ -70,10 +65,20 @@ export class ConfigModule {
           cache: true,
           expandVariables: true,
           envFilePath,
-          load,
+          load: load || getDefaultLoad(appType),
         }),
       ],
       exports: [NestConfigModule],
     };
   }
+}
+
+function getDefaultLoad(appType: ConfigModuleOptions['appType']): Array<ConfigFactory> {
+  const defaultLoad: Array<ConfigFactory> = [COMMON_CONFIG];
+  if (appType === 'api') {
+    defaultLoad.push(GATEWAY_CONFIG);
+  } else {
+    defaultLoad.push(APP_CONFIG);
+  }
+  return defaultLoad;
 }

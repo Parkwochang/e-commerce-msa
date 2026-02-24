@@ -201,6 +201,9 @@ importers:
       '@types/supertest':
         specifier: ^6.0.2
         version: 6.0.3
+      env-cmd:
+        specifier: catalog:dev
+        version: 10.1.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.1(jiti@2.6.1)
@@ -382,6 +385,9 @@ importers:
       '@nestjs/common':
         specifier: catalog:nestjs
         version: 11.1.10(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/config':
+        specifier: catalog:nestjs
+        version: 4.0.3(@nestjs/common@11.1.10(reflect-metadata@0.2.2)(rxjs@7.8.2))(rxjs@7.8.2)
       '@nestjs/core':
         specifier: catalog:nestjs
         version: 11.1.10(@nestjs/common@11.1.10(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/microservices@11.1.11)(@nestjs/platform-express@11.1.10)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -449,6 +455,9 @@ importers:
       '@types/supertest':
         specifier: ^6.0.2
         version: 6.0.3
+      env-cmd:
+        specifier: catalog:dev
+        version: 10.1.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.1(jiti@2.6.1)

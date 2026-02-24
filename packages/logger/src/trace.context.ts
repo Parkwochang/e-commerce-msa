@@ -18,8 +18,6 @@ export const asyncLocalStorage = new AsyncLocalStorage<Map<string, any>>();
  */
 export const getTraceId = (): string | undefined => {
   return requestContext.getStore()?.traceId;
-
-  // return asyncLocalStorage.getStore()?.get('traceId');
 };
 
 /**
@@ -42,4 +40,8 @@ export const generateTraceId = (): string => {
 export const setRequestContext = (context: Partial<RequestContext>): void => {
   const currentContext = requestContext.getStore() || { traceId: generateTraceId() };
   requestContext.enterWith({ ...currentContext, ...context });
+};
+
+export const clearRequestContext = (): void => {
+  requestContext.disable();
 };

@@ -1,6 +1,6 @@
 import * as winston from 'winston';
 import type { LoggerOptions } from 'winston';
-import DailyRotateFile from 'winston-daily-rotate-file';
+import DailyRotateFile = require('winston-daily-rotate-file');
 
 import { getRequestContext, getTraceId } from './trace.context';
 
