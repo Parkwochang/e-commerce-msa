@@ -149,6 +149,9 @@ importers:
       '@repo/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@repo/errors':
+        specifier: workspace:*
+        version: link:../../packages/errors
       '@repo/logger':
         specifier: workspace:*
         version: link:../../packages/logger
@@ -561,6 +564,24 @@ importers:
       zod:
         specifier: catalog:validation
         version: 3.25.76
+
+  packages/errors:
+    devDependencies:
+      '@nestjs/common':
+        specifier: catalog:nestjs
+        version: 11.1.10(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/microservices':
+        specifier: catalog:nestjs
+        version: 11.1.11(@grpc/grpc-js@1.14.3)(@nestjs/common@11.1.10(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.10)(ioredis@5.9.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../tools/typescript-config
+      '@types/node':
+        specifier: ^22.10.7
+        version: 22.19.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
 
   packages/logger:
     dependencies:
