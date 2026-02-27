@@ -19,7 +19,8 @@
     "common": "pnpm -F @repo/common",
     "config": "pnpm -F @repo/config",
     "logger": "pnpm -F @repo/logger",
-    "proto": "pnpm -F @repo/proto"
+    "proto": "pnpm -F @repo/proto",
+    "errors": "pnpm -F @repo/errors"
   },
   "devDependencies": {
     "prettier": "catalog:",

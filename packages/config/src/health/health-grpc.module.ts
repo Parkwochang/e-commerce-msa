@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TerminusModule } from '@nestjs/terminus';
+
 import { HealthService } from './health.service';
+import { GrpcHealthController } from './health-grpc.controller';
+
+// ----------------------------------------------------------------------------
 
 /**
  * Health Check Module
@@ -12,7 +16,7 @@ import { HealthService } from './health.service';
       gracefulShutdownTimeoutMs: 1000,
     }),
   ],
+  controllers: [GrpcHealthController],
   providers: [HealthService],
-  exports: [HealthService, TerminusModule],
 })
-export class HealthModule {}
+export class GrpcHealthModule {}

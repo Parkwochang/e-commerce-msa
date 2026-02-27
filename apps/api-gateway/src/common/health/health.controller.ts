@@ -1,7 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
-import { HealthCheckService, HealthCheck } from '@nestjs/terminus';
+import { Controller, Get, Inject } from '@nestjs/common';
+import { GATEWAY_CONFIG, GatewayConfigType } from '@repo/config/env';
+import { GRPC_PACKAGE, GRPC_SERVICE } from '@repo/config/grpc';
 
-import { HealthService } from './health.service';
+import {
+  HealthCheck,
+  HealthCheckResult,
+  HealthCheckService,
+  HealthService,
+} from '@repo/config/health';
+import { PROTO_PATHS } from '@repo/proto';
 
 // ----------------------------------------------------------------------------
 
@@ -10,10 +17,11 @@ import { HealthService } from './health.service';
  * @description Kubernetes liveness/readiness probe용 엔드포인트 제공
  */
 @Controller('health')
-export class HealthController {
+export class GatewayHealthController {
   constructor(
     private readonly healthService: HealthService,
-    private readonly health: HealthCheckService,
+    private readonly terminus: HealthCheckService,
+    @Inject(GATEWAY_CONFIG.KEY) private readonly config: GatewayConfigType,
   ) {}
 
   /**
@@ -24,8 +32,8 @@ export class HealthController {
    */
   @Get('live')
   @HealthCheck()
-  liveness() {
-    return this.health.check([]);
+  liveness(): Promise<HealthCheckResult> {
+    return this.terminus.check([]);
   }
 
   /**
@@ -37,8 +45,8 @@ export class HealthController {
    */
   @Get('ready')
   @HealthCheck()
-  readiness() {
-    return this.health.check([
+  readiness(): Promise<HealthCheckResult> {
+    return this.terminus.check([
       this.healthService.checkStorage,
       this.healthService.checkMemory,
       // API Gateway인 경우 gRPC 서비스 연결 상태 확인 (선택적)
@@ -55,13 +63,17 @@ export class HealthController {
    */
   @Get()
   @HealthCheck()
-  check() {
-    return this.health.check([
+  check(): Promise<HealthCheckResult> {
+    return this.terminus.check([
       this.healthService.checkStorage,
       this.healthService.checkMemory,
       this.healthService.checkRSS,
-      // API Gateway인 경우 gRPC 서비스 연결 상태 확인 (선택적)
-      // this.healthService.checkUserService,
+
+      this.healthService.checkServiceHealth(GRPC_SERVICE.USER, 'readiness', {
+        url: this.config.USER_GRPC_URL,
+        package: GRPC_PACKAGE.USER,
+        protoPath: PROTO_PATHS.USER,
+      }),
     ]);
   }
 }

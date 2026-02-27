@@ -1,9 +1,14 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { DiskHealthIndicator, GRPCHealthIndicator, HealthCheckService, MemoryHealthIndicator } from '@nestjs/terminus';
+import { Injectable } from '@nestjs/common';
+import {
+  type CheckGRPCServiceOptions,
+  type HealthIndicatorFunction,
+  DiskHealthIndicator,
+  GRPCHealthIndicator,
+  MemoryHealthIndicator,
+} from '@nestjs/terminus';
+import { type GrpcOptions } from '@nestjs/microservices';
 
-import { GATEWAY_CONFIG, type GatewayConfigType } from '../env';
-import { GRPC_SERVICE } from '../grpc';
+// ----------------------------------------------------------------------------
 
 @Injectable()
 export class HealthService {
@@ -11,7 +16,6 @@ export class HealthService {
     private readonly memory: MemoryHealthIndicator,
     private readonly disk: DiskHealthIndicator,
     private readonly grpc: GRPCHealthIndicator,
-    private readonly configService?: ConfigService,
   ) {}
 
   /**
@@ -50,48 +54,18 @@ export class HealthService {
    * @param url gRPC 서비스 URL (예: 'localhost:5001')
    * @param timeout 타임아웃 (밀리초, 기본값: 3000ms)
    */
-  checkGrpcService(serviceName: string, url: string, timeout: number = 3000) {
-    return this.grpc.checkService(serviceName, url, { timeout });
-  }
-
-  /**
-   * User Service gRPC 연결 상태 확인 (API Gateway용)
-   * @description GATEWAY_CONFIG에서 USER_GRPC_URL을 가져와서 체크합니다.
-   * @param timeout 타임아웃 (밀리초, 기본값: 2000ms)
-   */
-  checkUserServiceConnection(timeout: number = 2000) {
-    if (!this.configService) {
-      // ConfigService가 없으면 체크 스킵 (일반 서비스에서는 사용 안 함)
-      return Promise.resolve({
-        user_service_connection: {
-          status: 'up',
-          message: 'ConfigService not available, skipping check',
-        },
+  checkServiceHealth(
+    name: string,
+    service: string = 'readiness',
+    options: CheckGRPCServiceOptions<GrpcOptions>,
+  ): HealthIndicatorFunction {
+    return () =>
+      this.grpc.checkService(name, service, {
+        package: 'grpc.health.v2',
+        timeout: 500,
+        healthServiceName: 'Health',
+        healthServiceCheck: (healthService: any, service: string) => healthService.check({ service }).toPromise(),
+        ...options,
       });
-    }
-
-    const gatewayConfig = this.configService.get<GatewayConfigType>(GATEWAY_CONFIG.KEY);
-    if (!gatewayConfig) {
-      // GATEWAY_CONFIG가 없으면 체크 스킵
-      return Promise.resolve({
-        user_service_connection: {
-          status: 'up',
-          message: 'GATEWAY_CONFIG not available, skipping check',
-        },
-      });
-    }
-
-    const url = gatewayConfig.USER_GRPC_URL;
-    if (!url) {
-      return Promise.resolve({
-        user_service_connection: {
-          status: 'down',
-          message: 'USER_GRPC_URL not configured',
-        },
-      });
-    }
-
-    // gRPC Health Checking Protocol 사용 (grpc.health.v1.Health)
-    return this.grpc.checkService('grpc.health.v1.Health', url, { timeout });
   }
 }

@@ -1,6 +1,8 @@
 import { Controller, Inject } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
-import { TypeOrmHealthIndicator, PrismaHealthIndicator } from '@nestjs/terminus';
+import { PrismaHealthIndicator } from '@nestjs/terminus';
+
+// ----------------------------------------------------------------------------
 
 enum ServingStatus {
   UNKNOWN = 0,
