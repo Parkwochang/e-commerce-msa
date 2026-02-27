@@ -14,7 +14,7 @@ import { getTraceId } from '@repo/logger';
  */
 @Injectable()
 export class UserGrpcService implements OnModuleInit {
-  private userService!: User.UserServiceClient;
+  private svc!: User.UserServiceClient;
   private readonly logger = new Logger(UserGrpcService.name);
 
   constructor(
@@ -23,8 +23,7 @@ export class UserGrpcService implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-    this.userService =
-      this.client.getService<User.UserServiceClient>('UserService');
+    this.svc = this.client.getService<User.UserServiceClient>('UserService');
   }
 
   /**
@@ -37,26 +36,20 @@ export class UserGrpcService implements OnModuleInit {
     const metadata = new Metadata();
     metadata.set('x-trace-id', getTraceId() ?? '');
 
-    return this.grpcCaller.call(() =>
-      this.userService.findAll(request, metadata),
-    );
+    return this.grpcCaller.call(() => this.svc.findAll(request, metadata));
   }
 
   /**
    * 사용자 ID로 조회
    */
   async findOne(id: string): Promise<User.UserResponse> {
-    return this.grpcCaller.call(() =>
-      this.userService.findOne({ id }, new Metadata()),
-    );
+    return this.grpcCaller.call(() => this.svc.findOne({ id }, new Metadata()));
   }
 
   /**
    * 사용자 생성
    */
   async create(data: User.CreateUserRequest): Promise<User.UserResponse> {
-    return this.grpcCaller.call(() =>
-      this.userService.create(data, new Metadata()),
-    );
+    return this.grpcCaller.call(() => this.svc.create(data, new Metadata()));
   }
 }

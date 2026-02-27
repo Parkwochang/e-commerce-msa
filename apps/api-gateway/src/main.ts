@@ -3,6 +3,7 @@ import { VersioningType } from '@nestjs/common';
 
 import { WINSTON_MODULE_NEST_PROVIDER } from '@repo/logger';
 import { GATEWAY_CONFIG, type GatewayConfigType } from '@repo/config/env';
+import { GlobalHttpExceptionFilter } from '@repo/errors';
 
 import { AppModule } from './app.module';
 
@@ -12,13 +13,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const gatewayConfig = app.get<GatewayConfigType>(GATEWAY_CONFIG.KEY);
 
-  if (!gatewayConfig) {
-    throw new Error('Gateway config is required');
-  }
-
   // Winston을 NestJS 기본 로거로 설정
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
+  // CORS 설정
   app.enableCors({
     origin: ['http://localhost:3000', 'domain'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
@@ -26,10 +24,14 @@ async function bootstrap() {
     credentials: true,
   });
 
+  // 버전 관리 설정
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: '1',
   });
+
+  // 에러 필터 등록
+  app.useGlobalFilters(new GlobalHttpExceptionFilter());
 
   await app.listen(gatewayConfig.HTTP_PORT);
 
