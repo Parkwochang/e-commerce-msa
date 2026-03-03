@@ -20,7 +20,9 @@ import { UserModule } from './modules/user/user.module';
 
     LoggerModule.forRoot({
       serviceName: GRPC_SERVICE.USER,
-      disableFileLog: process.env.NODE_ENV === 'production',
+      fileLog: {
+        enabled: process.env.NODE_ENV !== 'production',
+      },
     }),
     // GrpcHealthModule,
 

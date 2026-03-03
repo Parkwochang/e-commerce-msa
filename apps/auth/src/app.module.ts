@@ -17,7 +17,9 @@ import { InfraModule } from '@/infra/infra.module';
     }),
     LoggerModule.forRoot({
       serviceName: 'AUTH_SERVICE',
-      disableFileLog: process.env.NODE_ENV === 'production',
+      fileLog: {
+        enabled: process.env.NODE_ENV !== 'production',
+      },
     }),
     RedisModule.forRootAsync(),
     InfraModule,

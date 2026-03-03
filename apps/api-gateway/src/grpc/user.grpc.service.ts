@@ -30,7 +30,12 @@ export class UserGrpcService implements OnModuleInit {
    * 모든 사용자 조회
    */
   async findAll(request: User.FindAllRequest): Promise<User.UserListResponse> {
-    this.logger.log('findAll() called', request);
+    this.logger.log(
+      'findAll() called',
+      { context: UserGrpcService.name },
+      request,
+      'UserGrpcService.name',
+    );
 
     // TODO : helper 함수 필요
     const metadata = new Metadata();
