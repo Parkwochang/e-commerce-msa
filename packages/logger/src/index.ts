@@ -1,4 +1,5 @@
 export * from './logger.module';
+export * from './app-logger.service';
 export * from './winston.config';
 export * from './trace.context';
 export * from './trace.interceptor';

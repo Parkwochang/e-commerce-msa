@@ -26,7 +26,9 @@ import { GatewayHealthModule } from './common/health/health.module';
 
     LoggerModule.forRoot({
       serviceName: 'API_GATEWAY',
-      disableFileLog: process.env.NODE_ENV === 'production',
+      fileLog: {
+        enabled: process.env.NODE_ENV !== 'production',
+      },
     }),
 
     DevtoolsModule.register({

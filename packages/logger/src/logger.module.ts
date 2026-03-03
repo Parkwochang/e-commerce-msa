@@ -1,6 +1,7 @@
 import { Global, Module, type DynamicModule } from '@nestjs/common';
 import { WinstonModule } from 'nest-winston';
 
+import { AppLogger } from './app-logger.service';
 import { createWinstonConfig, type WinstonConfigOptions } from './winston.config';
 
 // ----------------------------------------------------------------------------
@@ -10,22 +11,22 @@ import { createWinstonConfig, type WinstonConfigOptions } from './winston.config
  *
  *
  * @param options.serviceName - 서비스 이름
- * @param options.disableFileLog - 파일 로그 비활성화 (production 시 ELK 로그 수집을 위해 비활성화)
  * @param options.level - 로그 레벨
- * @param options.logDir - 로그 디렉토리
- * @param options.maxSize - 파일 최대 크기
- * @param options.maxFiles - 파일 보관 기간
+ * @param options.fileLog.enabled - 파일 로그 활성화 여부
+ * @param options.fileLog.dir - 로그 디렉토리
+ * @param options.fileLog.maxSize - 파일 최대 크기
+ * @param options.fileLog.maxFiles - 파일 보관 기간
  * @example
  * LoggerModule.forRoot({
  *   serviceName: 'API_GATEWAY',
- *   disableFileLog: process.env.NODE_ENV === 'production',
+ *   fileLog: { enabled: process.env.NODE_ENV !== 'production' },
  * })
  *
  * @example
  * // ConfigService를 사용하는 방식 (권장)
  * LoggerModule.forRootAsync({
  *   serviceName: 'API_GATEWAY',
- *   disableFileLog: true,
+ *   fileLog: { enabled: true },
  * })
  */
 
@@ -36,7 +37,8 @@ export class LoggerModule {
     return {
       module: LoggerModule,
       imports: [WinstonModule.forRoot(createWinstonConfig(options))],
-      exports: [WinstonModule],
+      providers: [AppLogger],
+      exports: [WinstonModule, AppLogger],
     };
   }
 
@@ -58,7 +60,8 @@ export class LoggerModule {
           },
         }),
       ],
-      exports: [WinstonModule],
+      providers: [AppLogger],
+      exports: [WinstonModule, AppLogger],
     };
   }
 }
