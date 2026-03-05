@@ -1,11 +1,14 @@
 import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 import { AppLogger } from '@repo/logger';
-import { User } from '@repo/proto';
 
 import {
+  CreateUserCommand,
+  FindUserQuery,
   USER_REPOSITORY,
+  UserListResponseDto,
   UserRepositoryPort,
+  UserResponseDto,
 } from '@/domains/user/application';
 
 @Injectable()
@@ -18,12 +21,12 @@ export class UserService {
     this.logger.setContext(UserService.name);
   }
 
-  async findOne(id: string): Promise<User.UserResponse> {
-    this.logger.info(`Finding user: ${id}`, { userId: id });
-    const user = await this.userRepository.findById(id);
+  async findOne(query: FindUserQuery): Promise<UserResponseDto> {
+    this.logger.info(`Finding user: ${query.id}`, { userId: query.id });
+    const user = await this.userRepository.findById(query.id);
 
     if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
+      throw new NotFoundException(`User with id ${query.id} not found`);
     }
 
     return {
@@ -34,7 +37,7 @@ export class UserService {
     };
   }
 
-  async findAll(): Promise<User.UserListResponse> {
+  async findAll(): Promise<UserListResponseDto> {
     this.logger.info('Finding all users');
     const users = await this.userRepository.findAll();
 
@@ -48,17 +51,17 @@ export class UserService {
     };
   }
 
-  async create(data: User.CreateUserRequest): Promise<User.UserResponse> {
-    this.logger.info(`Creating user: ${data.email}`, { email: data.email });
+  async create(command: CreateUserCommand): Promise<UserResponseDto> {
+    this.logger.info(`Creating user: ${command.email}`, { email: command.email });
 
-    const existing = await this.userRepository.findByEmail(data.email);
+    const existing = await this.userRepository.findByEmail(command.email);
     if (existing) {
-      throw new ConflictException(`User already exists: ${data.email}`);
+      throw new ConflictException(`User already exists: ${command.email}`);
     }
 
     const created = await this.userRepository.create({
-      email: data.email,
-      name: data.name,
+      email: command.email,
+      name: command.name,
     });
 
     return {

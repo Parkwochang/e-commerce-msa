@@ -53,7 +53,15 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   UserProfile: 'UserProfile',
-  UserSession: 'UserSession'
+  UserSession: 'UserSession',
+  UserAuthIdentity: 'UserAuthIdentity',
+  UserAgreement: 'UserAgreement',
+  UserStatusHistory: 'UserStatusHistory',
+  MembershipPlan: 'MembershipPlan',
+  UserMembership: 'UserMembership',
+  GradePolicy: 'GradePolicy',
+  UserGrade: 'UserGrade',
+  WithdrawnUser: 'WithdrawnUser'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -77,6 +85,12 @@ export const UserScalarFieldEnum = {
   email: 'email',
   name: 'name',
   status: 'status',
+  role: 'role',
+  passwordHash: 'passwordHash',
+  dormantAt: 'dormantAt',
+  suspendedAt: 'suspendedAt',
+  withdrawnAt: 'withdrawnAt',
+  lastLoginAt: 'lastLoginAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -87,9 +101,20 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const UserProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  nickname: 'nickname',
   bio: 'bio',
   phone: 'phone',
-  address: 'address'
+  birthDate: 'birthDate',
+  gender: 'gender',
+  profileImageUrl: 'profileImageUrl',
+  timezone: 'timezone',
+  addressLine1: 'addressLine1',
+  addressLine2: 'addressLine2',
+  postalCode: 'postalCode',
+  marketingEmailOptIn: 'marketingEmailOptIn',
+  marketingSmsOptIn: 'marketingSmsOptIn',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserProfileScalarFieldEnum = (typeof UserProfileScalarFieldEnum)[keyof typeof UserProfileScalarFieldEnum]
@@ -99,13 +124,131 @@ export const UserSessionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   refreshHash: 'refreshHash',
+  deviceId: 'deviceId',
   ip: 'ip',
   userAgent: 'userAgent',
+  lastSeenAt: 'lastSeenAt',
   expiresAt: 'expiresAt',
+  revokedAt: 'revokedAt',
   createdAt: 'createdAt'
 } as const
 
 export type UserSessionScalarFieldEnum = (typeof UserSessionScalarFieldEnum)[keyof typeof UserSessionScalarFieldEnum]
+
+
+export const UserAuthIdentityScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  provider: 'provider',
+  providerUserId: 'providerUserId',
+  email: 'email',
+  linkedAt: 'linkedAt',
+  lastLoginAt: 'lastLoginAt'
+} as const
+
+export type UserAuthIdentityScalarFieldEnum = (typeof UserAuthIdentityScalarFieldEnum)[keyof typeof UserAuthIdentityScalarFieldEnum]
+
+
+export const UserAgreementScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  version: 'version',
+  isAgreed: 'isAgreed',
+  agreedAt: 'agreedAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type UserAgreementScalarFieldEnum = (typeof UserAgreementScalarFieldEnum)[keyof typeof UserAgreementScalarFieldEnum]
+
+
+export const UserStatusHistoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  fromStatus: 'fromStatus',
+  toStatus: 'toStatus',
+  reason: 'reason',
+  changedBy: 'changedBy',
+  changedAt: 'changedAt'
+} as const
+
+export type UserStatusHistoryScalarFieldEnum = (typeof UserStatusHistoryScalarFieldEnum)[keyof typeof UserStatusHistoryScalarFieldEnum]
+
+
+export const MembershipPlanScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  description: 'description',
+  status: 'status',
+  billingPeriod: 'billingPeriod',
+  price: 'price',
+  currency: 'currency',
+  benefits: 'benefits',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MembershipPlanScalarFieldEnum = (typeof MembershipPlanScalarFieldEnum)[keyof typeof MembershipPlanScalarFieldEnum]
+
+
+export const UserMembershipScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  planId: 'planId',
+  status: 'status',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt',
+  canceledAt: 'canceledAt',
+  autoRenew: 'autoRenew',
+  nextBillingAt: 'nextBillingAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserMembershipScalarFieldEnum = (typeof UserMembershipScalarFieldEnum)[keyof typeof UserMembershipScalarFieldEnum]
+
+
+export const GradePolicyScalarFieldEnum = {
+  id: 'id',
+  grade: 'grade',
+  minOrderCount: 'minOrderCount',
+  minPaidAmount: 'minPaidAmount',
+  priority: 'priority',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GradePolicyScalarFieldEnum = (typeof GradePolicyScalarFieldEnum)[keyof typeof GradePolicyScalarFieldEnum]
+
+
+export const UserGradeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  grade: 'grade',
+  reason: 'reason',
+  effectiveFrom: 'effectiveFrom',
+  effectiveTo: 'effectiveTo',
+  createdAt: 'createdAt'
+} as const
+
+export type UserGradeScalarFieldEnum = (typeof UserGradeScalarFieldEnum)[keyof typeof UserGradeScalarFieldEnum]
+
+
+export const WithdrawnUserScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  reason: 'reason',
+  detail: 'detail',
+  withdrawnAt: 'withdrawnAt',
+  retentionUntil: 'retentionUntil',
+  anonymizedAt: 'anonymizedAt',
+  rejoinBlockedUntil: 'rejoinBlockedUntil'
+} as const
+
+export type WithdrawnUserScalarFieldEnum = (typeof WithdrawnUserScalarFieldEnum)[keyof typeof WithdrawnUserScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -114,6 +257,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -130,4 +281,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

@@ -27,25 +27,58 @@ export type AggregateUserProfile = {
 export type UserProfileMinAggregateOutputType = {
   id: string | null
   userId: string | null
+  nickname: string | null
   bio: string | null
   phone: string | null
-  address: string | null
+  birthDate: Date | null
+  gender: $Enums.Gender | null
+  profileImageUrl: string | null
+  timezone: string | null
+  addressLine1: string | null
+  addressLine2: string | null
+  postalCode: string | null
+  marketingEmailOptIn: boolean | null
+  marketingSmsOptIn: boolean | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type UserProfileMaxAggregateOutputType = {
   id: string | null
   userId: string | null
+  nickname: string | null
   bio: string | null
   phone: string | null
-  address: string | null
+  birthDate: Date | null
+  gender: $Enums.Gender | null
+  profileImageUrl: string | null
+  timezone: string | null
+  addressLine1: string | null
+  addressLine2: string | null
+  postalCode: string | null
+  marketingEmailOptIn: boolean | null
+  marketingSmsOptIn: boolean | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type UserProfileCountAggregateOutputType = {
   id: number
   userId: number
+  nickname: number
   bio: number
   phone: number
-  address: number
+  birthDate: number
+  gender: number
+  profileImageUrl: number
+  timezone: number
+  addressLine1: number
+  addressLine2: number
+  postalCode: number
+  marketingEmailOptIn: number
+  marketingSmsOptIn: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -53,25 +86,58 @@ export type UserProfileCountAggregateOutputType = {
 export type UserProfileMinAggregateInputType = {
   id?: true
   userId?: true
+  nickname?: true
   bio?: true
   phone?: true
-  address?: true
+  birthDate?: true
+  gender?: true
+  profileImageUrl?: true
+  timezone?: true
+  addressLine1?: true
+  addressLine2?: true
+  postalCode?: true
+  marketingEmailOptIn?: true
+  marketingSmsOptIn?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type UserProfileMaxAggregateInputType = {
   id?: true
   userId?: true
+  nickname?: true
   bio?: true
   phone?: true
-  address?: true
+  birthDate?: true
+  gender?: true
+  profileImageUrl?: true
+  timezone?: true
+  addressLine1?: true
+  addressLine2?: true
+  postalCode?: true
+  marketingEmailOptIn?: true
+  marketingSmsOptIn?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type UserProfileCountAggregateInputType = {
   id?: true
   userId?: true
+  nickname?: true
   bio?: true
   phone?: true
-  address?: true
+  birthDate?: true
+  gender?: true
+  profileImageUrl?: true
+  timezone?: true
+  addressLine1?: true
+  addressLine2?: true
+  postalCode?: true
+  marketingEmailOptIn?: true
+  marketingSmsOptIn?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -150,9 +216,20 @@ export type UserProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type UserProfileGroupByOutputType = {
   id: string
   userId: string
+  nickname: string | null
   bio: string | null
   phone: string | null
-  address: string | null
+  birthDate: Date | null
+  gender: $Enums.Gender | null
+  profileImageUrl: string | null
+  timezone: string | null
+  addressLine1: string | null
+  addressLine2: string | null
+  postalCode: string | null
+  marketingEmailOptIn: boolean
+  marketingSmsOptIn: boolean
+  createdAt: Date
+  updatedAt: Date
   _count: UserProfileCountAggregateOutputType | null
   _min: UserProfileMinAggregateOutputType | null
   _max: UserProfileMaxAggregateOutputType | null
@@ -179,39 +256,83 @@ export type UserProfileWhereInput = {
   NOT?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
   id?: Prisma.StringFilter<"UserProfile"> | string
   userId?: Prisma.StringFilter<"UserProfile"> | string
+  nickname?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   bio?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   phone?: Prisma.StringNullableFilter<"UserProfile"> | string | null
-  address?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  birthDate?: Prisma.DateTimeNullableFilter<"UserProfile"> | Date | string | null
+  gender?: Prisma.EnumGenderNullableFilter<"UserProfile"> | $Enums.Gender | null
+  profileImageUrl?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  timezone?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  addressLine1?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  addressLine2?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  postalCode?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  marketingEmailOptIn?: Prisma.BoolFilter<"UserProfile"> | boolean
+  marketingSmsOptIn?: Prisma.BoolFilter<"UserProfile"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type UserProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  nickname?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
-  address?: Prisma.SortOrderInput | Prisma.SortOrder
+  birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  gender?: Prisma.SortOrderInput | Prisma.SortOrder
+  profileImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  timezone?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressLine1?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressLine2?: Prisma.SortOrderInput | Prisma.SortOrder
+  postalCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  marketingEmailOptIn?: Prisma.SortOrder
+  marketingSmsOptIn?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type UserProfileWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   userId?: string
+  phone?: string
   AND?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
   OR?: Prisma.UserProfileWhereInput[]
   NOT?: Prisma.UserProfileWhereInput | Prisma.UserProfileWhereInput[]
+  nickname?: Prisma.StringNullableFilter<"UserProfile"> | string | null
   bio?: Prisma.StringNullableFilter<"UserProfile"> | string | null
-  phone?: Prisma.StringNullableFilter<"UserProfile"> | string | null
-  address?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  birthDate?: Prisma.DateTimeNullableFilter<"UserProfile"> | Date | string | null
+  gender?: Prisma.EnumGenderNullableFilter<"UserProfile"> | $Enums.Gender | null
+  profileImageUrl?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  timezone?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  addressLine1?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  addressLine2?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  postalCode?: Prisma.StringNullableFilter<"UserProfile"> | string | null
+  marketingEmailOptIn?: Prisma.BoolFilter<"UserProfile"> | boolean
+  marketingSmsOptIn?: Prisma.BoolFilter<"UserProfile"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"UserProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "userId">
+}, "id" | "userId" | "phone">
 
 export type UserProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  nickname?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
-  address?: Prisma.SortOrderInput | Prisma.SortOrder
+  birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  gender?: Prisma.SortOrderInput | Prisma.SortOrder
+  profileImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  timezone?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressLine1?: Prisma.SortOrderInput | Prisma.SortOrder
+  addressLine2?: Prisma.SortOrderInput | Prisma.SortOrder
+  postalCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  marketingEmailOptIn?: Prisma.SortOrder
+  marketingSmsOptIn?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserProfileCountOrderByAggregateInput
   _max?: Prisma.UserProfileMaxOrderByAggregateInput
   _min?: Prisma.UserProfileMinOrderByAggregateInput
@@ -223,64 +344,152 @@ export type UserProfileScalarWhereWithAggregatesInput = {
   NOT?: Prisma.UserProfileScalarWhereWithAggregatesInput | Prisma.UserProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"UserProfile"> | string
   userId?: Prisma.StringWithAggregatesFilter<"UserProfile"> | string
+  nickname?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
-  address?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  birthDate?: Prisma.DateTimeNullableWithAggregatesFilter<"UserProfile"> | Date | string | null
+  gender?: Prisma.EnumGenderNullableWithAggregatesFilter<"UserProfile"> | $Enums.Gender | null
+  profileImageUrl?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  timezone?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  addressLine1?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  addressLine2?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  postalCode?: Prisma.StringNullableWithAggregatesFilter<"UserProfile"> | string | null
+  marketingEmailOptIn?: Prisma.BoolWithAggregatesFilter<"UserProfile"> | boolean
+  marketingSmsOptIn?: Prisma.BoolWithAggregatesFilter<"UserProfile"> | boolean
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserProfile"> | Date | string
 }
 
 export type UserProfileCreateInput = {
   id?: string
+  nickname?: string | null
   bio?: string | null
   phone?: string | null
-  address?: string | null
+  birthDate?: Date | string | null
+  gender?: $Enums.Gender | null
+  profileImageUrl?: string | null
+  timezone?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  postalCode?: string | null
+  marketingEmailOptIn?: boolean
+  marketingSmsOptIn?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutProfileInput
 }
 
 export type UserProfileUncheckedCreateInput = {
   id?: string
   userId: string
+  nickname?: string | null
   bio?: string | null
   phone?: string | null
-  address?: string | null
+  birthDate?: Date | string | null
+  gender?: $Enums.Gender | null
+  profileImageUrl?: string | null
+  timezone?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  postalCode?: string | null
+  marketingEmailOptIn?: boolean
+  marketingSmsOptIn?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type UserProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingEmailOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingSmsOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutProfileNestedInput
 }
 
 export type UserProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingEmailOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingSmsOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserProfileCreateManyInput = {
   id?: string
   userId: string
+  nickname?: string | null
   bio?: string | null
   phone?: string | null
-  address?: string | null
+  birthDate?: Date | string | null
+  gender?: $Enums.Gender | null
+  profileImageUrl?: string | null
+  timezone?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  postalCode?: string | null
+  marketingEmailOptIn?: boolean
+  marketingSmsOptIn?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type UserProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingEmailOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingSmsOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingEmailOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingSmsOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserProfileNullableScalarRelationFilter = {
@@ -291,25 +500,58 @@ export type UserProfileNullableScalarRelationFilter = {
 export type UserProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  nickname?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  address?: Prisma.SortOrder
+  birthDate?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
+  profileImageUrl?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  addressLine1?: Prisma.SortOrder
+  addressLine2?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
+  marketingEmailOptIn?: Prisma.SortOrder
+  marketingSmsOptIn?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type UserProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  nickname?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  address?: Prisma.SortOrder
+  birthDate?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
+  profileImageUrl?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  addressLine1?: Prisma.SortOrder
+  addressLine2?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
+  marketingEmailOptIn?: Prisma.SortOrder
+  marketingSmsOptIn?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type UserProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  nickname?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  address?: Prisma.SortOrder
+  birthDate?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
+  profileImageUrl?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  addressLine1?: Prisma.SortOrder
+  addressLine2?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
+  marketingEmailOptIn?: Prisma.SortOrder
+  marketingSmsOptIn?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type UserProfileCreateNestedOneWithoutUserInput = {
@@ -344,22 +586,48 @@ export type UserProfileUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserProfileUpdateToOneWithWhereWithoutUserInput, Prisma.UserProfileUpdateWithoutUserInput>, Prisma.UserProfileUncheckedUpdateWithoutUserInput>
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
+export type NullableEnumGenderFieldUpdateOperationsInput = {
+  set?: $Enums.Gender | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type UserProfileCreateWithoutUserInput = {
   id?: string
+  nickname?: string | null
   bio?: string | null
   phone?: string | null
-  address?: string | null
+  birthDate?: Date | string | null
+  gender?: $Enums.Gender | null
+  profileImageUrl?: string | null
+  timezone?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  postalCode?: string | null
+  marketingEmailOptIn?: boolean
+  marketingSmsOptIn?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type UserProfileUncheckedCreateWithoutUserInput = {
   id?: string
+  nickname?: string | null
   bio?: string | null
   phone?: string | null
-  address?: string | null
+  birthDate?: Date | string | null
+  gender?: $Enums.Gender | null
+  profileImageUrl?: string | null
+  timezone?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  postalCode?: string | null
+  marketingEmailOptIn?: boolean
+  marketingSmsOptIn?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type UserProfileCreateOrConnectWithoutUserInput = {
@@ -380,16 +648,38 @@ export type UserProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type UserProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingEmailOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingSmsOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+  profileImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingEmailOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingSmsOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -397,39 +687,83 @@ export type UserProfileUncheckedUpdateWithoutUserInput = {
 export type UserProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  nickname?: boolean
   bio?: boolean
   phone?: boolean
-  address?: boolean
+  birthDate?: boolean
+  gender?: boolean
+  profileImageUrl?: boolean
+  timezone?: boolean
+  addressLine1?: boolean
+  addressLine2?: boolean
+  postalCode?: boolean
+  marketingEmailOptIn?: boolean
+  marketingSmsOptIn?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userProfile"]>
 
 export type UserProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  nickname?: boolean
   bio?: boolean
   phone?: boolean
-  address?: boolean
+  birthDate?: boolean
+  gender?: boolean
+  profileImageUrl?: boolean
+  timezone?: boolean
+  addressLine1?: boolean
+  addressLine2?: boolean
+  postalCode?: boolean
+  marketingEmailOptIn?: boolean
+  marketingSmsOptIn?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userProfile"]>
 
 export type UserProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  nickname?: boolean
   bio?: boolean
   phone?: boolean
-  address?: boolean
+  birthDate?: boolean
+  gender?: boolean
+  profileImageUrl?: boolean
+  timezone?: boolean
+  addressLine1?: boolean
+  addressLine2?: boolean
+  postalCode?: boolean
+  marketingEmailOptIn?: boolean
+  marketingSmsOptIn?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userProfile"]>
 
 export type UserProfileSelectScalar = {
   id?: boolean
   userId?: boolean
+  nickname?: boolean
   bio?: boolean
   phone?: boolean
-  address?: boolean
+  birthDate?: boolean
+  gender?: boolean
+  profileImageUrl?: boolean
+  timezone?: boolean
+  addressLine1?: boolean
+  addressLine2?: boolean
+  postalCode?: boolean
+  marketingEmailOptIn?: boolean
+  marketingSmsOptIn?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "bio" | "phone" | "address", ExtArgs["result"]["userProfile"]>
+export type UserProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "nickname" | "bio" | "phone" | "birthDate" | "gender" | "profileImageUrl" | "timezone" | "addressLine1" | "addressLine2" | "postalCode" | "marketingEmailOptIn" | "marketingSmsOptIn" | "createdAt" | "updatedAt", ExtArgs["result"]["userProfile"]>
 export type UserProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -448,9 +782,20 @@ export type $UserProfilePayload<ExtArgs extends runtime.Types.Extensions.Interna
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
+    nickname: string | null
     bio: string | null
     phone: string | null
-    address: string | null
+    birthDate: Date | null
+    gender: $Enums.Gender | null
+    profileImageUrl: string | null
+    timezone: string | null
+    addressLine1: string | null
+    addressLine2: string | null
+    postalCode: string | null
+    marketingEmailOptIn: boolean
+    marketingSmsOptIn: boolean
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["userProfile"]>
   composites: {}
 }
@@ -877,9 +1222,20 @@ export interface Prisma__UserProfileClient<T, Null = never, ExtArgs extends runt
 export interface UserProfileFieldRefs {
   readonly id: Prisma.FieldRef<"UserProfile", 'String'>
   readonly userId: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly nickname: Prisma.FieldRef<"UserProfile", 'String'>
   readonly bio: Prisma.FieldRef<"UserProfile", 'String'>
   readonly phone: Prisma.FieldRef<"UserProfile", 'String'>
-  readonly address: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly birthDate: Prisma.FieldRef<"UserProfile", 'DateTime'>
+  readonly gender: Prisma.FieldRef<"UserProfile", 'Gender'>
+  readonly profileImageUrl: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly timezone: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly addressLine1: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly addressLine2: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly postalCode: Prisma.FieldRef<"UserProfile", 'String'>
+  readonly marketingEmailOptIn: Prisma.FieldRef<"UserProfile", 'Boolean'>
+  readonly marketingSmsOptIn: Prisma.FieldRef<"UserProfile", 'Boolean'>
+  readonly createdAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"UserProfile", 'DateTime'>
 }
     
 

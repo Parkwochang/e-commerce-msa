@@ -14,7 +14,7 @@
     "start:prod": "NODE_ENV=production node dist/main",
     "schema": "npx prisma generate",
     "schema:prod": "env-cmd -f .env.production npx prisma generate",
-    "migrate": "env-cmd -f .env.development npx prisma migrate dev",
+    "migrate": "npx prisma migrate dev",
     "migrate:deploy": "env-cmd -f .env.production npx prisma migrate deploy",
     "watch": "npx prisma studio",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",

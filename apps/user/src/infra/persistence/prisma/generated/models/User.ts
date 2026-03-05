@@ -29,6 +29,12 @@ export type UserMinAggregateOutputType = {
   email: string | null
   name: string | null
   status: $Enums.UserStatus | null
+  role: $Enums.UserRole | null
+  passwordHash: string | null
+  dormantAt: Date | null
+  suspendedAt: Date | null
+  withdrawnAt: Date | null
+  lastLoginAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -38,6 +44,12 @@ export type UserMaxAggregateOutputType = {
   email: string | null
   name: string | null
   status: $Enums.UserStatus | null
+  role: $Enums.UserRole | null
+  passwordHash: string | null
+  dormantAt: Date | null
+  suspendedAt: Date | null
+  withdrawnAt: Date | null
+  lastLoginAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -47,6 +59,12 @@ export type UserCountAggregateOutputType = {
   email: number
   name: number
   status: number
+  role: number
+  passwordHash: number
+  dormantAt: number
+  suspendedAt: number
+  withdrawnAt: number
+  lastLoginAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -58,6 +76,12 @@ export type UserMinAggregateInputType = {
   email?: true
   name?: true
   status?: true
+  role?: true
+  passwordHash?: true
+  dormantAt?: true
+  suspendedAt?: true
+  withdrawnAt?: true
+  lastLoginAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -67,6 +91,12 @@ export type UserMaxAggregateInputType = {
   email?: true
   name?: true
   status?: true
+  role?: true
+  passwordHash?: true
+  dormantAt?: true
+  suspendedAt?: true
+  withdrawnAt?: true
+  lastLoginAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -76,6 +106,12 @@ export type UserCountAggregateInputType = {
   email?: true
   name?: true
   status?: true
+  role?: true
+  passwordHash?: true
+  dormantAt?: true
+  suspendedAt?: true
+  withdrawnAt?: true
+  lastLoginAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -158,6 +194,12 @@ export type UserGroupByOutputType = {
   email: string
   name: string
   status: $Enums.UserStatus
+  role: $Enums.UserRole
+  passwordHash: string | null
+  dormantAt: Date | null
+  suspendedAt: Date | null
+  withdrawnAt: Date | null
+  lastLoginAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -188,10 +230,22 @@ export type UserWhereInput = {
   email?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringFilter<"User"> | string
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
+  passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
+  dormantAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  suspendedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  withdrawnAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
   sessions?: Prisma.UserSessionListRelationFilter
+  authIdentities?: Prisma.UserAuthIdentityListRelationFilter
+  agreements?: Prisma.UserAgreementListRelationFilter
+  statusHistories?: Prisma.UserStatusHistoryListRelationFilter
+  memberships?: Prisma.UserMembershipListRelationFilter
+  grades?: Prisma.UserGradeListRelationFilter
+  withdrawn?: Prisma.XOR<Prisma.WithdrawnUserNullableScalarRelationFilter, Prisma.WithdrawnUserWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -199,10 +253,22 @@ export type UserOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  dormantAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  suspendedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  withdrawnAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   profile?: Prisma.UserProfileOrderByWithRelationInput
   sessions?: Prisma.UserSessionOrderByRelationAggregateInput
+  authIdentities?: Prisma.UserAuthIdentityOrderByRelationAggregateInput
+  agreements?: Prisma.UserAgreementOrderByRelationAggregateInput
+  statusHistories?: Prisma.UserStatusHistoryOrderByRelationAggregateInput
+  memberships?: Prisma.UserMembershipOrderByRelationAggregateInput
+  grades?: Prisma.UserGradeOrderByRelationAggregateInput
+  withdrawn?: Prisma.WithdrawnUserOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -213,10 +279,22 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringFilter<"User"> | string
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
+  passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
+  dormantAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  suspendedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  withdrawnAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
   sessions?: Prisma.UserSessionListRelationFilter
+  authIdentities?: Prisma.UserAuthIdentityListRelationFilter
+  agreements?: Prisma.UserAgreementListRelationFilter
+  statusHistories?: Prisma.UserStatusHistoryListRelationFilter
+  memberships?: Prisma.UserMembershipListRelationFilter
+  grades?: Prisma.UserGradeListRelationFilter
+  withdrawn?: Prisma.XOR<Prisma.WithdrawnUserNullableScalarRelationFilter, Prisma.WithdrawnUserWhereInput> | null
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -224,6 +302,12 @@ export type UserOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  dormantAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  suspendedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  withdrawnAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -239,6 +323,12 @@ export type UserScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
+  passwordHash?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  dormantAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  suspendedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  withdrawnAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  lastLoginAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -248,10 +338,22 @@ export type UserCreateInput = {
   email: string
   name: string
   status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -259,10 +361,22 @@ export type UserUncheckedCreateInput = {
   email: string
   name: string
   status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementUncheckedCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipUncheckedCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeUncheckedCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -270,10 +384,22 @@ export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -281,10 +407,22 @@ export type UserUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUncheckedUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUncheckedUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUncheckedUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -292,6 +430,12 @@ export type UserCreateManyInput = {
   email: string
   name: string
   status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -301,6 +445,12 @@ export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -310,6 +460,12 @@ export type UserUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -319,6 +475,12 @@ export type UserCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  dormantAt?: Prisma.SortOrder
+  suspendedAt?: Prisma.SortOrder
+  withdrawnAt?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -328,6 +490,12 @@ export type UserMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  dormantAt?: Prisma.SortOrder
+  suspendedAt?: Prisma.SortOrder
+  withdrawnAt?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -337,6 +505,12 @@ export type UserMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  passwordHash?: Prisma.SortOrder
+  dormantAt?: Prisma.SortOrder
+  suspendedAt?: Prisma.SortOrder
+  withdrawnAt?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -352,6 +526,18 @@ export type StringFieldUpdateOperationsInput = {
 
 export type EnumUserStatusFieldUpdateOperationsInput = {
   set?: $Enums.UserStatus
+}
+
+export type EnumUserRoleFieldUpdateOperationsInput = {
+  set?: $Enums.UserRole
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -386,14 +572,110 @@ export type UserUpdateOneRequiredWithoutSessionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSessionsInput, Prisma.UserUpdateWithoutSessionsInput>, Prisma.UserUncheckedUpdateWithoutSessionsInput>
 }
 
+export type UserCreateNestedOneWithoutAuthIdentitiesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuthIdentitiesInput, Prisma.UserUncheckedCreateWithoutAuthIdentitiesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuthIdentitiesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAuthIdentitiesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuthIdentitiesInput, Prisma.UserUncheckedCreateWithoutAuthIdentitiesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuthIdentitiesInput
+  upsert?: Prisma.UserUpsertWithoutAuthIdentitiesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuthIdentitiesInput, Prisma.UserUpdateWithoutAuthIdentitiesInput>, Prisma.UserUncheckedUpdateWithoutAuthIdentitiesInput>
+}
+
+export type UserCreateNestedOneWithoutAgreementsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAgreementsInput, Prisma.UserUncheckedCreateWithoutAgreementsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAgreementsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAgreementsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAgreementsInput, Prisma.UserUncheckedCreateWithoutAgreementsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAgreementsInput
+  upsert?: Prisma.UserUpsertWithoutAgreementsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAgreementsInput, Prisma.UserUpdateWithoutAgreementsInput>, Prisma.UserUncheckedUpdateWithoutAgreementsInput>
+}
+
+export type UserCreateNestedOneWithoutStatusHistoriesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStatusHistoriesInput, Prisma.UserUncheckedCreateWithoutStatusHistoriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStatusHistoriesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutStatusHistoriesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStatusHistoriesInput, Prisma.UserUncheckedCreateWithoutStatusHistoriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStatusHistoriesInput
+  upsert?: Prisma.UserUpsertWithoutStatusHistoriesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStatusHistoriesInput, Prisma.UserUpdateWithoutStatusHistoriesInput>, Prisma.UserUncheckedUpdateWithoutStatusHistoriesInput>
+}
+
+export type UserCreateNestedOneWithoutMembershipsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMembershipsInput, Prisma.UserUncheckedCreateWithoutMembershipsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMembershipsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutMembershipsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMembershipsInput, Prisma.UserUncheckedCreateWithoutMembershipsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMembershipsInput
+  upsert?: Prisma.UserUpsertWithoutMembershipsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMembershipsInput, Prisma.UserUpdateWithoutMembershipsInput>, Prisma.UserUncheckedUpdateWithoutMembershipsInput>
+}
+
+export type UserCreateNestedOneWithoutGradesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGradesInput, Prisma.UserUncheckedCreateWithoutGradesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGradesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutGradesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGradesInput, Prisma.UserUncheckedCreateWithoutGradesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGradesInput
+  upsert?: Prisma.UserUpsertWithoutGradesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGradesInput, Prisma.UserUpdateWithoutGradesInput>, Prisma.UserUncheckedUpdateWithoutGradesInput>
+}
+
+export type UserCreateNestedOneWithoutWithdrawnInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWithdrawnInput, Prisma.UserUncheckedCreateWithoutWithdrawnInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWithdrawnInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutWithdrawnNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWithdrawnInput, Prisma.UserUncheckedCreateWithoutWithdrawnInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWithdrawnInput
+  upsert?: Prisma.UserUpsertWithoutWithdrawnInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWithdrawnInput, Prisma.UserUpdateWithoutWithdrawnInput>, Prisma.UserUncheckedUpdateWithoutWithdrawnInput>
+}
+
 export type UserCreateWithoutProfileInput = {
   id?: string
   email: string
   name: string
   status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfileInput = {
@@ -401,9 +683,21 @@ export type UserUncheckedCreateWithoutProfileInput = {
   email: string
   name: string
   status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementUncheckedCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipUncheckedCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeUncheckedCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfileInput = {
@@ -427,9 +721,21 @@ export type UserUpdateWithoutProfileInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfileInput = {
@@ -437,9 +743,21 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUncheckedUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUncheckedUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUncheckedUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -447,9 +765,21 @@ export type UserCreateWithoutSessionsInput = {
   email: string
   name: string
   status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -457,9 +787,21 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   email: string
   name: string
   status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementUncheckedCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipUncheckedCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeUncheckedCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -483,9 +825,21 @@ export type UserUpdateWithoutSessionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -493,9 +847,645 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUncheckedUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUncheckedUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUncheckedUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAuthIdentitiesInput = {
+  id?: string
+  email: string
+  name: string
+  status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAuthIdentitiesInput = {
+  id?: string
+  email: string
+  name: string
+  status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementUncheckedCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipUncheckedCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeUncheckedCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAuthIdentitiesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuthIdentitiesInput, Prisma.UserUncheckedCreateWithoutAuthIdentitiesInput>
+}
+
+export type UserUpsertWithoutAuthIdentitiesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAuthIdentitiesInput, Prisma.UserUncheckedUpdateWithoutAuthIdentitiesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuthIdentitiesInput, Prisma.UserUncheckedCreateWithoutAuthIdentitiesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAuthIdentitiesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAuthIdentitiesInput, Prisma.UserUncheckedUpdateWithoutAuthIdentitiesInput>
+}
+
+export type UserUpdateWithoutAuthIdentitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAuthIdentitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUncheckedUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUncheckedUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUncheckedUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAgreementsInput = {
+  id?: string
+  email: string
+  name: string
+  status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAgreementsInput = {
+  id?: string
+  email: string
+  name: string
+  status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipUncheckedCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeUncheckedCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAgreementsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAgreementsInput, Prisma.UserUncheckedCreateWithoutAgreementsInput>
+}
+
+export type UserUpsertWithoutAgreementsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAgreementsInput, Prisma.UserUncheckedUpdateWithoutAgreementsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAgreementsInput, Prisma.UserUncheckedCreateWithoutAgreementsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAgreementsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAgreementsInput, Prisma.UserUncheckedUpdateWithoutAgreementsInput>
+}
+
+export type UserUpdateWithoutAgreementsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAgreementsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUncheckedUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUncheckedUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutStatusHistoriesInput = {
+  id?: string
+  email: string
+  name: string
+  status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutStatusHistoriesInput = {
+  id?: string
+  email: string
+  name: string
+  status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementUncheckedCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipUncheckedCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeUncheckedCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutStatusHistoriesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutStatusHistoriesInput, Prisma.UserUncheckedCreateWithoutStatusHistoriesInput>
+}
+
+export type UserUpsertWithoutStatusHistoriesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutStatusHistoriesInput, Prisma.UserUncheckedUpdateWithoutStatusHistoriesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutStatusHistoriesInput, Prisma.UserUncheckedCreateWithoutStatusHistoriesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutStatusHistoriesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutStatusHistoriesInput, Prisma.UserUncheckedUpdateWithoutStatusHistoriesInput>
+}
+
+export type UserUpdateWithoutStatusHistoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutStatusHistoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUncheckedUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUncheckedUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUncheckedUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutMembershipsInput = {
+  id?: string
+  email: string
+  name: string
+  status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutMembershipsInput = {
+  id?: string
+  email: string
+  name: string
+  status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementUncheckedCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeUncheckedCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutMembershipsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutMembershipsInput, Prisma.UserUncheckedCreateWithoutMembershipsInput>
+}
+
+export type UserUpsertWithoutMembershipsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutMembershipsInput, Prisma.UserUncheckedUpdateWithoutMembershipsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutMembershipsInput, Prisma.UserUncheckedCreateWithoutMembershipsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutMembershipsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutMembershipsInput, Prisma.UserUncheckedUpdateWithoutMembershipsInput>
+}
+
+export type UserUpdateWithoutMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUncheckedUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUncheckedUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutGradesInput = {
+  id?: string
+  email: string
+  name: string
+  status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutGradesInput = {
+  id?: string
+  email: string
+  name: string
+  status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementUncheckedCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipUncheckedCreateNestedManyWithoutUserInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutGradesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutGradesInput, Prisma.UserUncheckedCreateWithoutGradesInput>
+}
+
+export type UserUpsertWithoutGradesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutGradesInput, Prisma.UserUncheckedUpdateWithoutGradesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutGradesInput, Prisma.UserUncheckedCreateWithoutGradesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutGradesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutGradesInput, Prisma.UserUncheckedUpdateWithoutGradesInput>
+}
+
+export type UserUpdateWithoutGradesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutGradesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUncheckedUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUncheckedUpdateManyWithoutUserNestedInput
+  withdrawn?: Prisma.WithdrawnUserUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutWithdrawnInput = {
+  id?: string
+  email: string
+  name: string
+  status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutWithdrawnInput = {
+  id?: string
+  email: string
+  name: string
+  status?: $Enums.UserStatus
+  role?: $Enums.UserRole
+  passwordHash?: string | null
+  dormantAt?: Date | string | null
+  suspendedAt?: Date | string | null
+  withdrawnAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedCreateNestedManyWithoutUserInput
+  agreements?: Prisma.UserAgreementUncheckedCreateNestedManyWithoutUserInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedCreateNestedManyWithoutUserInput
+  memberships?: Prisma.UserMembershipUncheckedCreateNestedManyWithoutUserInput
+  grades?: Prisma.UserGradeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutWithdrawnInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutWithdrawnInput, Prisma.UserUncheckedCreateWithoutWithdrawnInput>
+}
+
+export type UserUpsertWithoutWithdrawnInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWithdrawnInput, Prisma.UserUncheckedUpdateWithoutWithdrawnInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWithdrawnInput, Prisma.UserUncheckedCreateWithoutWithdrawnInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWithdrawnInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWithdrawnInput, Prisma.UserUncheckedUpdateWithoutWithdrawnInput>
+}
+
+export type UserUpdateWithoutWithdrawnInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWithdrawnInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dormantAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  suspendedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  withdrawnAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  authIdentities?: Prisma.UserAuthIdentityUncheckedUpdateManyWithoutUserNestedInput
+  agreements?: Prisma.UserAgreementUncheckedUpdateManyWithoutUserNestedInput
+  statusHistories?: Prisma.UserStatusHistoryUncheckedUpdateManyWithoutUserNestedInput
+  memberships?: Prisma.UserMembershipUncheckedUpdateManyWithoutUserNestedInput
+  grades?: Prisma.UserGradeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -505,10 +1495,20 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
 
 export type UserCountOutputType = {
   sessions: number
+  authIdentities: number
+  agreements: number
+  statusHistories: number
+  memberships: number
+  grades: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+  authIdentities?: boolean | UserCountOutputTypeCountAuthIdentitiesArgs
+  agreements?: boolean | UserCountOutputTypeCountAgreementsArgs
+  statusHistories?: boolean | UserCountOutputTypeCountStatusHistoriesArgs
+  memberships?: boolean | UserCountOutputTypeCountMembershipsArgs
+  grades?: boolean | UserCountOutputTypeCountGradesArgs
 }
 
 /**
@@ -528,16 +1528,63 @@ export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.UserSessionWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAuthIdentitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserAuthIdentityWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAgreementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserAgreementWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountStatusHistoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserStatusHistoryWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserMembershipWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountGradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserGradeWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   email?: boolean
   name?: boolean
   status?: boolean
+  role?: boolean
+  passwordHash?: boolean
+  dormantAt?: boolean
+  suspendedAt?: boolean
+  withdrawnAt?: boolean
+  lastLoginAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   profile?: boolean | Prisma.User$profileArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
+  authIdentities?: boolean | Prisma.User$authIdentitiesArgs<ExtArgs>
+  agreements?: boolean | Prisma.User$agreementsArgs<ExtArgs>
+  statusHistories?: boolean | Prisma.User$statusHistoriesArgs<ExtArgs>
+  memberships?: boolean | Prisma.User$membershipsArgs<ExtArgs>
+  grades?: boolean | Prisma.User$gradesArgs<ExtArgs>
+  withdrawn?: boolean | Prisma.User$withdrawnArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -546,6 +1593,12 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   name?: boolean
   status?: boolean
+  role?: boolean
+  passwordHash?: boolean
+  dormantAt?: boolean
+  suspendedAt?: boolean
+  withdrawnAt?: boolean
+  lastLoginAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -555,6 +1608,12 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   name?: boolean
   status?: boolean
+  role?: boolean
+  passwordHash?: boolean
+  dormantAt?: boolean
+  suspendedAt?: boolean
+  withdrawnAt?: boolean
+  lastLoginAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -564,14 +1623,26 @@ export type UserSelectScalar = {
   email?: boolean
   name?: boolean
   status?: boolean
+  role?: boolean
+  passwordHash?: boolean
+  dormantAt?: boolean
+  suspendedAt?: boolean
+  withdrawnAt?: boolean
+  lastLoginAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "status" | "role" | "passwordHash" | "dormantAt" | "suspendedAt" | "withdrawnAt" | "lastLoginAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   profile?: boolean | Prisma.User$profileArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
+  authIdentities?: boolean | Prisma.User$authIdentitiesArgs<ExtArgs>
+  agreements?: boolean | Prisma.User$agreementsArgs<ExtArgs>
+  statusHistories?: boolean | Prisma.User$statusHistoriesArgs<ExtArgs>
+  memberships?: boolean | Prisma.User$membershipsArgs<ExtArgs>
+  grades?: boolean | Prisma.User$gradesArgs<ExtArgs>
+  withdrawn?: boolean | Prisma.User$withdrawnArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -582,12 +1653,24 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     profile: Prisma.$UserProfilePayload<ExtArgs> | null
     sessions: Prisma.$UserSessionPayload<ExtArgs>[]
+    authIdentities: Prisma.$UserAuthIdentityPayload<ExtArgs>[]
+    agreements: Prisma.$UserAgreementPayload<ExtArgs>[]
+    statusHistories: Prisma.$UserStatusHistoryPayload<ExtArgs>[]
+    memberships: Prisma.$UserMembershipPayload<ExtArgs>[]
+    grades: Prisma.$UserGradePayload<ExtArgs>[]
+    withdrawn: Prisma.$WithdrawnUserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     email: string
     name: string
     status: $Enums.UserStatus
+    role: $Enums.UserRole
+    passwordHash: string | null
+    dormantAt: Date | null
+    suspendedAt: Date | null
+    withdrawnAt: Date | null
+    lastLoginAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -986,6 +2069,12 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   profile<T extends Prisma.User$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profileArgs<ExtArgs>>): Prisma.Prisma__UserProfileClient<runtime.Types.Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  authIdentities<T extends Prisma.User$authIdentitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authIdentitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAuthIdentityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  agreements<T extends Prisma.User$agreementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$agreementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAgreementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  statusHistories<T extends Prisma.User$statusHistoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$statusHistoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserStatusHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  memberships<T extends Prisma.User$membershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  grades<T extends Prisma.User$gradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$gradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserGradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  withdrawn<T extends Prisma.User$withdrawnArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$withdrawnArgs<ExtArgs>>): Prisma.Prisma__WithdrawnUserClient<runtime.Types.Result.GetResult<Prisma.$WithdrawnUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1019,6 +2108,12 @@ export interface UserFieldRefs {
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
+  readonly role: Prisma.FieldRef<"User", 'UserRole'>
+  readonly passwordHash: Prisma.FieldRef<"User", 'String'>
+  readonly dormantAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly suspendedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly withdrawnAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly lastLoginAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -1449,6 +2544,145 @@ export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.UserSessionScalarFieldEnum | Prisma.UserSessionScalarFieldEnum[]
+}
+
+/**
+ * User.authIdentities
+ */
+export type User$authIdentitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserAuthIdentity
+   */
+  select?: Prisma.UserAuthIdentitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserAuthIdentity
+   */
+  omit?: Prisma.UserAuthIdentityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserAuthIdentityInclude<ExtArgs> | null
+  where?: Prisma.UserAuthIdentityWhereInput
+  orderBy?: Prisma.UserAuthIdentityOrderByWithRelationInput | Prisma.UserAuthIdentityOrderByWithRelationInput[]
+  cursor?: Prisma.UserAuthIdentityWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserAuthIdentityScalarFieldEnum | Prisma.UserAuthIdentityScalarFieldEnum[]
+}
+
+/**
+ * User.agreements
+ */
+export type User$agreementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserAgreement
+   */
+  select?: Prisma.UserAgreementSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserAgreement
+   */
+  omit?: Prisma.UserAgreementOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserAgreementInclude<ExtArgs> | null
+  where?: Prisma.UserAgreementWhereInput
+  orderBy?: Prisma.UserAgreementOrderByWithRelationInput | Prisma.UserAgreementOrderByWithRelationInput[]
+  cursor?: Prisma.UserAgreementWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserAgreementScalarFieldEnum | Prisma.UserAgreementScalarFieldEnum[]
+}
+
+/**
+ * User.statusHistories
+ */
+export type User$statusHistoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserStatusHistory
+   */
+  select?: Prisma.UserStatusHistorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserStatusHistory
+   */
+  omit?: Prisma.UserStatusHistoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserStatusHistoryInclude<ExtArgs> | null
+  where?: Prisma.UserStatusHistoryWhereInput
+  orderBy?: Prisma.UserStatusHistoryOrderByWithRelationInput | Prisma.UserStatusHistoryOrderByWithRelationInput[]
+  cursor?: Prisma.UserStatusHistoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserStatusHistoryScalarFieldEnum | Prisma.UserStatusHistoryScalarFieldEnum[]
+}
+
+/**
+ * User.memberships
+ */
+export type User$membershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserMembership
+   */
+  select?: Prisma.UserMembershipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserMembership
+   */
+  omit?: Prisma.UserMembershipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserMembershipInclude<ExtArgs> | null
+  where?: Prisma.UserMembershipWhereInput
+  orderBy?: Prisma.UserMembershipOrderByWithRelationInput | Prisma.UserMembershipOrderByWithRelationInput[]
+  cursor?: Prisma.UserMembershipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserMembershipScalarFieldEnum | Prisma.UserMembershipScalarFieldEnum[]
+}
+
+/**
+ * User.grades
+ */
+export type User$gradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserGrade
+   */
+  select?: Prisma.UserGradeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserGrade
+   */
+  omit?: Prisma.UserGradeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserGradeInclude<ExtArgs> | null
+  where?: Prisma.UserGradeWhereInput
+  orderBy?: Prisma.UserGradeOrderByWithRelationInput | Prisma.UserGradeOrderByWithRelationInput[]
+  cursor?: Prisma.UserGradeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserGradeScalarFieldEnum | Prisma.UserGradeScalarFieldEnum[]
+}
+
+/**
+ * User.withdrawn
+ */
+export type User$withdrawnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WithdrawnUser
+   */
+  select?: Prisma.WithdrawnUserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WithdrawnUser
+   */
+  omit?: Prisma.WithdrawnUserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WithdrawnUserInclude<ExtArgs> | null
+  where?: Prisma.WithdrawnUserWhereInput
 }
 
 /**

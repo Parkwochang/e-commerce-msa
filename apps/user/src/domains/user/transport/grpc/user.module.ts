@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { PrismaModule } from '@/infra/persistence/prisma/prisma.module';
+import { PrismaModule } from '@/infra/persistence/prisma';
 import { USER_REPOSITORY, UserService } from '@/domains/user/application';
 import { PrismaUserRepository } from '@/domains/user/infra';
 

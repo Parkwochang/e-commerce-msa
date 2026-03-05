@@ -52,3 +52,43 @@ export type UserProfile = Prisma.UserProfileModel
  * 
  */
 export type UserSession = Prisma.UserSessionModel
+/**
+ * Model UserAuthIdentity
+ * 
+ */
+export type UserAuthIdentity = Prisma.UserAuthIdentityModel
+/**
+ * Model UserAgreement
+ * 
+ */
+export type UserAgreement = Prisma.UserAgreementModel
+/**
+ * Model UserStatusHistory
+ * 
+ */
+export type UserStatusHistory = Prisma.UserStatusHistoryModel
+/**
+ * Model MembershipPlan
+ * 
+ */
+export type MembershipPlan = Prisma.MembershipPlanModel
+/**
+ * Model UserMembership
+ * 
+ */
+export type UserMembership = Prisma.UserMembershipModel
+/**
+ * Model GradePolicy
+ * 
+ */
+export type GradePolicy = Prisma.GradePolicyModel
+/**
+ * Model UserGrade
+ * 
+ */
+export type UserGrade = Prisma.UserGradeModel
+/**
+ * Model WithdrawnUser
+ * 
+ */
+export type WithdrawnUser = Prisma.WithdrawnUserModel
