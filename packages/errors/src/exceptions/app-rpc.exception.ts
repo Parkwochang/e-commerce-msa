@@ -1,27 +1,26 @@
 import { RpcException } from '@nestjs/microservices';
 
-import { ERROR_CODE, type ErrorCode } from '../constants';
-import type { ErrorEnvelope } from '../interfaces';
+import { type GrpcErrorResponse, GRPC_STATUS, type GrpcStatusCode } from '../constants';
 
 export interface AppRpcExceptionOptions {
-  code?: ErrorCode;
-  message: string;
-  details?: unknown;
+  code?: GrpcStatusCode;
+  message?: string;
+  metadata?: any;
 }
 
 export class AppRpcException extends RpcException {
-  readonly code: ErrorCode;
-  readonly details?: unknown;
+  readonly code: GrpcStatusCode;
+  readonly metadata?: any;
 
   constructor(options: AppRpcExceptionOptions) {
-    const payload: ErrorEnvelope = {
-      code: options.code ?? ERROR_CODE.INTERNAL_ERROR,
-      message: options.message,
-      details: options.details,
+    const payload: GrpcErrorResponse = {
+      code: options.code ?? GRPC_STATUS.INTERNAL,
+      message: options.message ?? 'Internal server error',
+      metadata: options.metadata,
     };
     super(payload);
 
     this.code = payload.code;
-    this.details = payload.details;
+    this.metadata = payload.metadata;
   }
 }

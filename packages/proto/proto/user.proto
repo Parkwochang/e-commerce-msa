@@ -9,7 +9,12 @@ service UserService {
 }
 
 message FindOneRequest {
-  string id = 1;
+  oneof key {
+    string id = 1;
+    string email = 2;
+    string phone = 3;
+    string name = 4;
+  }
 }
 
 message FindAllRequest {

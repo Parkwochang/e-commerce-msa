@@ -1,10 +1,10 @@
-import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Inject, Injectable } from '@nestjs/common';
 
 import { AppLogger } from '@repo/logger';
+import { AppRpcException, GRPC_STATUS } from '@repo/errors';
 
 import {
   CreateUserCommand,
-  FindUserQuery,
   USER_REPOSITORY,
   UserListResponseDto,
   UserRepositoryPort,
@@ -21,12 +21,34 @@ export class UserService {
     this.logger.setContext(UserService.name);
   }
 
-  async findOne(query: FindUserQuery): Promise<UserResponseDto> {
-    this.logger.info(`Finding user: ${query.id}`, { userId: query.id });
-    const user = await this.userRepository.findById(query.id);
+  async findById(id: string): Promise<UserResponseDto> {
+    this.logger.info(`Finding user: ${id}`, { userId: id });
+    const user = await this.userRepository.findById(id);
 
     if (!user) {
-      throw new NotFoundException(`User with id ${query.id} not found`);
+      throw new AppRpcException({
+        code: GRPC_STATUS.NOT_FOUND,
+        message: `User with id ${id} not found`,
+      });
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      createdAt: user.createdAt.toISOString(),
+    };
+  }
+
+  async findByEmail(email: string): Promise<UserResponseDto> {
+    this.logger.info(`Finding user: ${email}`, { email });
+    const user = await this.userRepository.findByEmail(email);
+
+    if (!user) {
+      throw new AppRpcException({
+        code: GRPC_STATUS.NOT_FOUND,
+        message: `User with email ${email} not found`,
+      });
     }
 
     return {
@@ -52,7 +74,9 @@ export class UserService {
   }
 
   async create(command: CreateUserCommand): Promise<UserResponseDto> {
-    this.logger.info(`Creating user: ${command.email}`, { email: command.email });
+    this.logger.info(`Creating user: ${command.email}`, {
+      email: command.email,
+    });
 
     const existing = await this.userRepository.findByEmail(command.email);
     if (existing) {

@@ -1,6 +1,6 @@
 import { type ErrorCode } from './error-codes';
 
-const GRPC_STATUS = {
+export const GRPC_STATUS = {
   OK: 0,
   CANCELLED: 1,
   UNKNOWN: 2,
@@ -20,11 +20,10 @@ const GRPC_STATUS = {
   UNAUTHENTICATED: 16,
 } as const;
 
-type GrpcStatusCode = (typeof GRPC_STATUS)[keyof typeof GRPC_STATUS];
+export type GrpcStatusCode = (typeof GRPC_STATUS)[keyof typeof GRPC_STATUS];
 
-interface GrpcErrorResponse {
+export interface GrpcErrorResponse {
   code: GrpcStatusCode;
   message: string;
-  details?: unknown;
-  errorCode: ErrorCode;
+  metadata: any;
 }
