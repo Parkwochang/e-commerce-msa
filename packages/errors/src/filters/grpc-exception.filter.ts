@@ -2,6 +2,9 @@ import { Catch, type ExceptionFilter, HttpException, HttpStatus } from '@nestjs/
 import { RpcException } from '@nestjs/microservices';
 
 import { ERROR_CODE, GRPC_STATUS, type ErrorCode, type GrpcStatusCode } from '@repo/core';
+import { AppLogger } from '@repo/logger';
+
+// ----------------------------------------------------------------------------
 
 interface GrpcErrorResponse {
   code: GrpcStatusCode;
@@ -12,8 +15,21 @@ interface GrpcErrorResponse {
 
 @Catch()
 export class GlobalGrpcExceptionFilter implements ExceptionFilter<unknown> {
+  constructor(private readonly logger: AppLogger) {
+    this.logger.setContext(GlobalGrpcExceptionFilter.name);
+  }
+
   catch(exception: unknown): never {
-    throw new RpcException(mapUnknownToGrpcError(exception));
+    const mapped = mapUnknownToGrpcError(exception);
+
+    this.logger.error(mapped.message, {
+      grpcCode: mapped.code,
+      errorCode: mapped.errorCode,
+      details: mapped.details,
+      stack: extractStack(exception),
+    });
+
+    throw new RpcException(mapped);
   }
 }
 
@@ -23,6 +39,7 @@ function mapUnknownToGrpcError(exception: unknown): GrpcErrorResponse {
     return normalizeRpcErrorPayload(rpcError);
   }
 
+  /** HTTP 에러 매핑 (BadRequestException) */
   if (exception instanceof HttpException) {
     const status = exception.getStatus();
     const response = exception.getResponse();
@@ -209,4 +226,16 @@ function isErrorCode(value: unknown): value is ErrorCode {
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
+}
+
+function extractStack(exception: unknown): string | undefined {
+  if (exception instanceof Error) {
+    return exception.stack;
+  }
+
+  if (isObject(exception) && 'stack' in exception && typeof exception.stack === 'string') {
+    return exception.stack;
+  }
+
+  return undefined;
 }

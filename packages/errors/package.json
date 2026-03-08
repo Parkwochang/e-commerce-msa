@@ -19,7 +19,8 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@repo/core": "workspace:*"
+    "@repo/core": "workspace:*",
+    "@repo/logger": "workspace:*"
   },
   "devDependencies": {
     "@nestjs/common": "catalog:nestjs",
