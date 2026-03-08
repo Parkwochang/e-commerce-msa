@@ -23,27 +23,17 @@ export class GrpcCaller {
   async call<T>(fn: () => Observable<T>, options?: GrpcCallerOptions): Promise<T> {
     const startAt = Date.now();
     const traceId = getTraceId();
+
     let attempts = 1;
 
     const retryCount = options?.retry ?? GRPC_CALLER_DEFAULTS.retryCount;
-
     const retryDelayMs = options?.retryDelayMs ?? GRPC_CALLER_DEFAULTS.retryDelayMs;
-
     const attemptTimeoutMs = options?.attemptTimeoutMs ?? GRPC_CALLER_DEFAULTS.attemptTimeoutMs;
-
     const totalTimeoutMs = resolveTotalTimeoutMs({
       requestedTotalTimeoutMs: options?.totalTimeoutMs,
       attemptTimeoutMs,
       retryCount,
       retryDelayMs,
-    });
-
-    this.logger.debug('grpc call started', {
-      traceId,
-      retryCount,
-      retryDelayMs,
-      attemptTimeoutMs,
-      totalTimeoutMs,
     });
 
     try {
@@ -78,6 +68,7 @@ export class GrpcCaller {
                   code: isGrpcLikeError(err) ? err.code : undefined,
                   message: err instanceof Error ? err.message : undefined,
                 });
+
                 return timer(delayMs);
               },
             }),

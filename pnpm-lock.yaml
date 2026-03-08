@@ -612,6 +612,9 @@ importers:
       '@repo/core':
         specifier: workspace:*
         version: link:../core
+      '@repo/logger':
+        specifier: workspace:*
+        version: link:../logger
     devDependencies:
       '@nestjs/common':
         specifier: catalog:nestjs
