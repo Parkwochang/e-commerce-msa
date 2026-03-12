@@ -3,7 +3,6 @@ import { extractStack } from '@/mappers/utils.mapper';
 import { Catch, type ExceptionFilter } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 
-import { type ErrorCode, type GrpcStatusCode } from '@repo/core';
 import { AppLogger } from '@repo/logger';
 
 // ----------------------------------------------------------------------------
