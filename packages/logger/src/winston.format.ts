@@ -24,9 +24,12 @@ import {
  */
 export const developmentFormat = winston.format.printf(
   ({ level, message, timestamp, context, trace, service, ...metadata }) => {
-    const traceId = typeof metadata.traceId === 'string' ? metadata.traceId : normalizeTraceId(undefined);
-    const traceIdStr = `\x1b[90m[${traceId.substring(0, 8)}]\x1b[0m`;
     const requestCtx = getRequestContext();
+
+    const traceId = /* typeof metadata.traceId === 'string' ? metadata.traceId : */ normalizeTraceId(
+      requestCtx?.traceId,
+    );
+    const traceIdStr = `\x1b[90m[${traceId.substring(0, 8)}]\x1b[0m`;
 
     const plainLevel = level.replace(/\x1b\[\d+m/g, '');
     const emoji = levelEmoji[plainLevel] || '📝';
