@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@repo/core": "workspace:*",
+    "@repo/logger": "workspace:*",
     "@nestjs/jwt": "catalog:auth"
   },
   "devDependencies": {
