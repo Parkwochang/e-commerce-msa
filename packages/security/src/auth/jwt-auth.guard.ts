@@ -1,13 +1,12 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, HttpStatus, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 
-import { IS_PUBLIC_KEY } from './public.decorator';
+import { AppException } from '@repo/errors';
+
+import { IS_PRIVATE_KEY, IS_PUBLIC_KEY } from './public.decorator';
+
+// ----------------------------------------------------------------------------
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -22,19 +21,24 @@ export class JwtAuthGuard implements CanActivate {
       context.getClass(),
     ]);
 
-    if (isPublic) return true;
+    const isPrivate = this.reflector.getAllAndOverride<boolean>(IS_PRIVATE_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+
+    if (isPublic || !isPrivate) return true;
 
     const request = context.switchToHttp().getRequest();
     const token = this.extractToken(request);
 
     if (!token) {
-      throw new UnauthorizedException('Missing authentication token');
+      throw new AppException({ status: HttpStatus.UNAUTHORIZED, message: '토큰이 존재하지 않습니다.' });
     }
 
     try {
       request.user = await this.jwtService.verifyAsync(token);
     } catch {
-      throw new UnauthorizedException('Invalid or expired token');
+      throw new AppException({ status: HttpStatus.UNAUTHORIZED, message: '토큰이 유효하지 않습니다.' });
     }
 
     return true;

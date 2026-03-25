@@ -24,6 +24,7 @@
   "dependencies": {
     "@repo/core": "workspace:*",
     "@repo/logger": "workspace:*",
+    "@repo/errors": "workspace:*",
     "@nestjs/jwt": "catalog:auth"
   },
   "devDependencies": {

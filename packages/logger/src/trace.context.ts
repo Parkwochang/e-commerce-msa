@@ -1,6 +1,8 @@
 import { AsyncLocalStorage } from 'async_hooks';
 import { randomUUID } from 'crypto';
 
+// ----------------------------------------------------------------------------
+
 export interface AuthUser {
   sub: string;
   email?: string;

@@ -4,6 +4,8 @@ import { finalize, Observable, tap } from 'rxjs';
 import { type AuthUser, requestContext, generateTraceId } from './trace.context';
 import { AppLogger } from './app-logger.service';
 
+// ----------------------------------------------------------------------------
+
 /**
  * 모든 요청에 고유한 traceId를 할당하는 Interceptor
  * HTTP와 gRPC 요청을 모두 지원합니다.

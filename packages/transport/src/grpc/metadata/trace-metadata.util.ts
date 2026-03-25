@@ -7,6 +7,8 @@ import { getTraceId, getCurrentUser } from '@repo/logger';
 export const TRACE_ID_HEADER = 'x-trace-id';
 export const USER_ID_HEADER = 'x-user-id';
 
+// ----------------------------------------------------------------------------
+
 export function createMetadata(init?: Record<string, string>): Metadata {
   const metadata = new Metadata();
 
