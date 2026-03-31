@@ -12,7 +12,13 @@ export class AuthController {
 
   @GrpcMethod('AuthService', 'FindUserByEmail')
   async findUser(data: User.FindOneRequest): Promise<User.UserResponse> {
-    this.logger.log(`Finding user with id: ${data.id}`);
-    return this.authService.findUserByEmail(data.id);
+    const email = data.email ?? data.id;
+
+    if (!email) {
+      throw new Error('email or id is required');
+    }
+
+    this.logger.log(`Finding user: ${email}`);
+    return this.authService.findUserByEmail(email);
   }
 }
