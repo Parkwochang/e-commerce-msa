@@ -6,6 +6,8 @@ import { PrismaUserRepository } from '@/domains/user/infra';
 
 import { UserController } from './user.grpc.controller';
 
+// ----------------------------------------------------------------------------
+
 @Module({
   imports: [PrismaModule],
   controllers: [UserController],

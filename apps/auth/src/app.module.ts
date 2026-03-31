@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 
 import { LoggerModule, TraceInterceptor } from '@repo/logger';
-import { AppConfigModule } from '@repo/config/env';
-import { RedisModule } from '@repo/redis';
+import { AppConfigModule } from '@repo/config';
+import { RedisModule } from '@repo/transport/redis';
 
+import { InfraModule } from '@/infra/infra.module';
+import { AuthModule } from '@/domains/auth';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { InfraModule } from '@/infra/infra.module';
 
 @Module({
   imports: [
@@ -23,6 +23,7 @@ import { InfraModule } from '@/infra/infra.module';
     }),
     RedisModule.forRootAsync(),
     InfraModule,
+
     AuthModule,
   ],
   controllers: [AppController],

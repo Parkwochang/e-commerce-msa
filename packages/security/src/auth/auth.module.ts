@@ -45,10 +45,7 @@ export class AuthModule {
       imports: [
         JwtModule.registerAsync({
           inject: options.inject,
-          useFactory: async (...args: any[]) => {
-            const config = await options.useFactory(...args);
-            return createAuthConfig(config);
-          },
+          useFactory: async (...args: any[]) => createAuthConfig(await options.useFactory(...args)),
         }),
       ],
       exports: [JwtModule],
